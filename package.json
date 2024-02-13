@@ -16,7 +16,8 @@
     "format": "prettier --write '**/*.{js,ts,tsx}'",
     "typecheck": "tsc --noEmit",
     "versions:appkit": "manypkg upgrade @commercetools-frontend",
-    "versions:uikit": "manypkg upgrade @commercetools-uikit"
+    "versions:uikit": "manypkg upgrade @commercetools-uikit",
+    "codegen": "graphql-codegen -r dotenv/config --config codegen.ctp.yml"
   },
   "dependencies": {
     "@apollo/client": "3.7.14",
@@ -59,6 +60,12 @@
     "@commercetools/sync-actions": "^5.14.0",
     "@emotion/react": "^11.11.1",
     "@formatjs/cli": "6.1.1",
+    "@graphql-codegen/add": "3.2.3",
+    "@graphql-codegen/cli": "2.16.5",
+    "@graphql-codegen/introspection": "2.2.3",
+    "@graphql-codegen/typescript": "2.8.8",
+    "@graphql-codegen/typescript-graphql-files-modules": "2.2.1",
+    "@graphql-codegen/typescript-operations": "2.5.13",
     "@jest/types": "29.5.0",
     "@manypkg/cli": "0.20.0",
     "@testing-library/dom": "^9.3.1",

@@ -24,3 +24,11 @@ declare module '*/update-channel-details.ctp.graphql' {
 
   export default defaultDocument;
 }
+
+declare module '*/fetch-reviews.ctp.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const FetchReviews: DocumentNode;
+
+  export default defaultDocument;
+}

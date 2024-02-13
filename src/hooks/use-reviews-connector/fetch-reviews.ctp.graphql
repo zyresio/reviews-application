@@ -1,0 +1,19 @@
+query FetchReviews($limit: Int!, $offset: Int!, $sort: [String!]) {
+  reviews(limit: $limit, offset: $offset, sort: $sort) {
+    total
+    count
+    offset
+    results {
+      customer {
+        email
+      }
+      id
+      rating
+      text
+      locale
+      state {
+        key
+      }
+    }
+  }
+}
