@@ -1,0 +1,9 @@
+mutation TransitionReview($id: String!, $stateId: String!, $version: Long!) {
+  updateReview(
+    actions: [{ transitionState: { state: { id: $stateId } } }]
+    version: $version
+    id: $id
+  ) {
+    key
+  }
+}

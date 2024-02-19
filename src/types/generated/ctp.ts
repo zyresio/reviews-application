@@ -4850,6 +4850,52 @@ export type TGoogleCloudPubSubDestinationInput = {
   topic: Scalars['String'];
 };
 
+export type THasProductTailoringData = {
+  description?: Maybe<Scalars['String']>;
+  descriptionAllLocales?: Maybe<Array<TLocalizedString>>;
+  metaDescription?: Maybe<Scalars['String']>;
+  metaDescriptionAllLocales?: Maybe<Array<TLocalizedString>>;
+  metaKeywords?: Maybe<Scalars['String']>;
+  metaKeywordsAllLocales?: Maybe<Array<TLocalizedString>>;
+  metaTitle?: Maybe<Scalars['String']>;
+  metaTitleAllLocales?: Maybe<Array<TLocalizedString>>;
+  name?: Maybe<Scalars['String']>;
+  nameAllLocales?: Maybe<Array<TLocalizedString>>;
+  slug?: Maybe<Scalars['String']>;
+  slugAllLocales?: Maybe<Array<TLocalizedString>>;
+  variants: Array<TProductVariantTailoring>;
+};
+
+export type THasProductTailoringData_DescriptionArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type THasProductTailoringData_MetaDescriptionArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type THasProductTailoringData_MetaKeywordsArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type THasProductTailoringData_MetaTitleArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type THasProductTailoringData_NameArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type THasProductTailoringData_SlugArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
 export type THighPrecisionMoney = TBaseMoney & {
   __typename?: 'HighPrecisionMoney';
   centAmount: Scalars['Long'];
@@ -9259,23 +9305,46 @@ export type TProductStateTransition = TMessagePayload & {
   type: Scalars['String'];
 };
 
-export type TProductTailoringCreated = TMessagePayload & {
-  __typename?: 'ProductTailoringCreated';
-  description?: Maybe<Scalars['String']>;
-  descriptionAllLocales?: Maybe<Array<TLocalizedString>>;
-  key?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  nameAllLocales?: Maybe<Array<TLocalizedString>>;
-  productKey?: Maybe<Scalars['String']>;
-  productRef: TReference;
-  publish: Scalars['Boolean'];
-  slug?: Maybe<Scalars['String']>;
-  slugAllLocales?: Maybe<Array<TLocalizedString>>;
-  storeRef: TKeyReference;
-  type: Scalars['String'];
-};
+export type TProductTailoringCreated = THasProductTailoringData &
+  TMessagePayload & {
+    __typename?: 'ProductTailoringCreated';
+    description?: Maybe<Scalars['String']>;
+    descriptionAllLocales?: Maybe<Array<TLocalizedString>>;
+    key?: Maybe<Scalars['String']>;
+    metaDescription?: Maybe<Scalars['String']>;
+    metaDescriptionAllLocales?: Maybe<Array<TLocalizedString>>;
+    metaKeywords?: Maybe<Scalars['String']>;
+    metaKeywordsAllLocales?: Maybe<Array<TLocalizedString>>;
+    metaTitle?: Maybe<Scalars['String']>;
+    metaTitleAllLocales?: Maybe<Array<TLocalizedString>>;
+    name?: Maybe<Scalars['String']>;
+    nameAllLocales?: Maybe<Array<TLocalizedString>>;
+    productKey?: Maybe<Scalars['String']>;
+    productRef: TReference;
+    publish: Scalars['Boolean'];
+    slug?: Maybe<Scalars['String']>;
+    slugAllLocales?: Maybe<Array<TLocalizedString>>;
+    storeRef: TKeyReference;
+    type: Scalars['String'];
+    variants: Array<TProductVariantTailoring>;
+  };
 
 export type TProductTailoringCreated_DescriptionArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type TProductTailoringCreated_MetaDescriptionArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type TProductTailoringCreated_MetaKeywordsArgs = {
+  acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
+  locale?: InputMaybe<Scalars['Locale']>;
+};
+
+export type TProductTailoringCreated_MetaTitleArgs = {
   acceptLanguage?: InputMaybe<Array<Scalars['Locale']>>;
   locale?: InputMaybe<Scalars['Locale']>;
 };
@@ -9332,7 +9401,7 @@ export type TProductTailoringImageAdded = TMessagePayload & {
 
 export type TProductTailoringImagesSet = TMessagePayload & {
   __typename?: 'ProductTailoringImagesSet';
-  newImages: Array<TImage>;
+  images: Array<TImage>;
   oldImages: Array<TImage>;
   productKey?: Maybe<Scalars['String']>;
   productRef: TReference;
@@ -9662,6 +9731,13 @@ export type TProductVariantSelectionIncludeOnly = TProductVariantSelection & {
   type: Scalars['String'];
 };
 
+export type TProductVariantTailoring = {
+  __typename?: 'ProductVariantTailoring';
+  assets: Array<TAsset>;
+  id: Scalars['Int'];
+  images: Array<TImage>;
+};
+
 export type TProductVariantTailoringAdded = TMessagePayload & {
   __typename?: 'ProductVariantTailoringAdded';
   productKey?: Maybe<Scalars['String']>;
@@ -9674,9 +9750,9 @@ export type TProductVariantTailoringAdded = TMessagePayload & {
 
 export type TProductVariantTailoringInput = {
   assets?: InputMaybe<Array<TAssetDraftInput>>;
-  attributes?: Array<TProductAttributeInput>;
+  attributes?: InputMaybe<Array<TProductAttributeInput>>;
   id?: InputMaybe<Scalars['Int']>;
-  images?: Array<TImageInput>;
+  images?: InputMaybe<Array<TImageInput>>;
   sku?: InputMaybe<Scalars['String']>;
 };
 
@@ -16195,10 +16271,21 @@ export type TUpdateChannelDetailsMutation = {
   } | null;
 };
 
+export type TDeleteReviewMutationVariables = Exact<{
+  version: Scalars['Long'];
+  id: Scalars['String'];
+}>;
+
+export type TDeleteReviewMutation = {
+  __typename?: 'Mutation';
+  deleteReview?: { __typename?: 'Review'; id: string } | null;
+};
+
 export type TFetchReviewsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
   sort?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  where?: InputMaybe<Scalars['String']>;
 }>;
 
 export type TFetchReviewsQuery = {
@@ -16210,12 +16297,33 @@ export type TFetchReviewsQuery = {
     offset: number;
     results: Array<{
       __typename?: 'Review';
+      version: number;
       id: string;
       rating?: number | null;
       text?: string | null;
       locale?: string | null;
       customer?: { __typename?: 'Customer'; email: string } | null;
-      state?: { __typename?: 'State'; key?: string | null } | null;
+      state?: {
+        __typename?: 'State';
+        key?: string | null;
+        id: string;
+        transitions?: Array<{
+          __typename?: 'State';
+          id: string;
+          key?: string | null;
+        }> | null;
+      } | null;
     }>;
   };
+};
+
+export type TTransitionReviewMutationVariables = Exact<{
+  id: Scalars['String'];
+  stateId: Scalars['String'];
+  version: Scalars['Long'];
+}>;
+
+export type TTransitionReviewMutation = {
+  __typename?: 'Mutation';
+  updateReview?: { __typename?: 'Review'; key?: string | null } | null;
 };

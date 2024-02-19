@@ -1,9 +1,9 @@
 import { useIntl } from 'react-intl';
 import {
   Link as RouterLink,
-  Switch,
-  useHistory,
-  useRouteMatch,
+  // Switch,
+  // useHistory,
+  // useRouteMatch,
 } from 'react-router-dom';
 // import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 // import { NO_VALUE_FALLBACK } from '@commercetools-frontend/constants';
@@ -11,16 +11,22 @@ import {
   usePaginationState,
   useDataTableSortingState,
 } from '@commercetools-uikit/hooks';
-import { BackIcon } from '@commercetools-uikit/icons';
+import {
+  BackIcon,
+  BinFilledIcon,
+  CheckBoldIcon,
+} from '@commercetools-uikit/icons';
 import Constraints from '@commercetools-uikit/constraints';
 import FlatButton from '@commercetools-uikit/flat-button';
+import PrimaryButton from '@commercetools-uikit/primary-button';
+// import SecondaryButton from '@commercetools-uikit/secondary-button';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
-import DataTable from '@commercetools-uikit/data-table';
+import DataTable, { TColumn } from '@commercetools-uikit/data-table';
 import { ContentNotification } from '@commercetools-uikit/notifications';
 import { Pagination } from '@commercetools-uikit/pagination';
 import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
-import { SuspendedRoute } from '@commercetools-frontend/application-shell';
+// import { SuspendedRoute } from '@commercetools-frontend/application-shell';
 // import {
 //   formatLocalizedString,
 //   transformLocalizedFieldToLocalizedString,
@@ -29,34 +35,50 @@ import type { TFetchReviewsQuery } from '../../types/generated/ctp';
 // import { useChannelsFetcher } from '../../hooks/use-channels-connector';
 import { getErrorMessage } from '../../helpers';
 import messages from './messages';
-import ChannelDetails from '../channel-details';
-import { useReviewsFetcher } from '../../hooks/use-reviews-connector';
 
-const columns = [
-  { key: 'rating', label: 'Rating' },
-  { key: 'text', label: 'Text', isSortable: true },
-  { key: 'locale', label: 'Locale' },
-];
+import {
+  useReviewsFetcher,
+  useReviewTrantionMutation,
+} from '../../hooks/use-reviews-connector';
+import { useReviewDeleteMutation } from '../../hooks/use-reviews-connector/use-reviews-connector';
+
+const columns: TColumn<
+  NonNullable<TFetchReviewsQuery['reviews']['results']>[0]
+>[] = [
+    { key: 'rating', label: 'Rating', isSortable: true },
+    { key: 'text', label: 'Text', isSortable: true },
+    {
+      key: 'actions',
+      label: 'Actions',
+      shouldIgnoreRowClick: true,
+      width: 'min-content',
+    },
+  ];
 
 type TChannelsProps = {
   linkToWelcome: string;
 };
 
-const Channels = (props: TChannelsProps) => {
+const Reviews = (props: TChannelsProps) => {
   const intl = useIntl();
-  const match = useRouteMatch();
-  const { push } = useHistory();
+  // const match = useRouteMatch();
+  // const { push } = useHistory();
   const { page, perPage } = usePaginationState();
   const tableSorting = useDataTableSortingState({ key: 'key', order: 'asc' });
+  const transition = useReviewTrantionMutation();
+  const deletion = useReviewDeleteMutation();
   // const { dataLocale, projectLanguages } = useApplicationContext((context) => ({
   //   dataLocale: context.dataLocale,
   //   projectLanguages: context.project?.languages,
   // }));
-  const { reviewsPaginatedResult, error, loading } = useReviewsFetcher({
-    page,
-    perPage,
-    tableSorting,
-  });
+  const { reviewsPaginatedResult, error, loading, refetch } = useReviewsFetcher(
+    {
+      page,
+      perPage,
+      tableSorting,
+      where: 'includedInStatistics=false',
+    }
+  );
 
   if (error) {
     return (
@@ -65,6 +87,8 @@ const Channels = (props: TChannelsProps) => {
       </ContentNotification>
     );
   }
+
+  console.log(reviewsPaginatedResult);
 
   return (
     <Spacings.Stack scale="xl">
@@ -78,15 +102,15 @@ const Channels = (props: TChannelsProps) => {
         <Text.Headline as="h2" intlMessage={messages.title} />
       </Spacings.Stack>
 
-      <Constraints.Horizontal max={13}>
+      {/* <Constraints.Horizontal max={13}>
         <ContentNotification type="info">
           <Text.Body intlMessage={messages.demoHint} />
         </ContentNotification>
-      </Constraints.Horizontal>
+      </Constraints.Horizontal> */}
 
       {loading && <LoadingSpinner />}
 
-      {reviewsPaginatedResult ? (
+      {reviewsPaginatedResult && reviewsPaginatedResult.count !== 0 ? (
         <Spacings.Stack scale="l">
           <DataTable<NonNullable<TFetchReviewsQuery['reviews']['results']>[0]>
             isCondensed
@@ -98,8 +122,43 @@ const Channels = (props: TChannelsProps) => {
                   return item.rating;
                 case 'text':
                   return item.text;
-                case 'locale':
-                  return item.locale;
+                case 'actions':
+                  return (
+                    <Spacings.Inline scale="m">
+                      <PrimaryButton
+                        label="Approve"
+                        iconLeft={<CheckBoldIcon />}
+                        disabled={transition.loading}
+                        onClick={async () => {
+                          const newStateId = item.state?.transitions?.[0]?.id;
+                          if (!newStateId) return;
+                          await transition.execute({
+                            newStateId,
+                            reviewId: item.id,
+                            version: item.version,
+                          });
+                          refetch();
+                        }}
+                      >
+                        Approve
+                      </PrimaryButton>
+                      <PrimaryButton
+                        label="Delete"
+                        iconLeft={<BinFilledIcon />}
+                        tone="critical"
+                        disabled={deletion.loading}
+                        onClick={async () => {
+                          await deletion.execute({
+                            version: item.version,
+                            id: item.id,
+                          });
+                          refetch();
+                        }}
+                      >
+                        Delete
+                      </PrimaryButton>
+                    </Spacings.Inline>
+                  );
                 // return formatLocalizedString(
                 //   {
                 //     name: transformLocalizedFieldToLocalizedString(
@@ -120,7 +179,7 @@ const Channels = (props: TChannelsProps) => {
             sortedBy={tableSorting.value.key}
             sortDirection={tableSorting.value.order}
             onSortChange={tableSorting.onChange}
-            onRowClick={(row) => push(`${match.url}/${row.id}`)}
+          // onRowClick={(row) => push(`${match.url}/${row.id}`)}
           />
           <Pagination
             page={page.value}
@@ -129,16 +188,17 @@ const Channels = (props: TChannelsProps) => {
             onPerPageChange={perPage.onChange}
             totalItems={reviewsPaginatedResult.total}
           />
-          <Switch>
-            <SuspendedRoute path={`${match.url}/:id`}>
-              <ChannelDetails onClose={() => push(`${match.url}`)} />
-            </SuspendedRoute>
-          </Switch>
         </Spacings.Stack>
-      ) : null}
+      ) : (
+        <Constraints.Horizontal max={13}>
+          <ContentNotification type="info">
+            <Text.Body intlMessage={messages.noResults} />
+          </ContentNotification>
+        </Constraints.Horizontal>
+      )}
     </Spacings.Stack>
   );
 };
-Channels.displayName = 'Channels';
+Reviews.displayName = 'Reviews';
 
-export default Channels;
+export default Reviews;

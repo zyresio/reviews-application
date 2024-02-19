@@ -33,6 +33,12 @@ const config = {
       labelAllLocales: [],
       permissions: [PERMISSIONS.View],
     },
+    {
+      uriPath: 'settings',
+      defaultLabel: 'Settings',
+      labelAllLocales: [],
+      permissions: [PERMISSIONS.View],
+    },
   ],
 };
 

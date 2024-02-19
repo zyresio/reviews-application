@@ -1,1 +1,4 @@
-export { useReviewsFetcher } from './use-reviews-connector';
+export {
+  useReviewsFetcher,
+  useReviewTrantionMutation,
+} from './use-reviews-connector';
