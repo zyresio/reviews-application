@@ -1,0 +1,6 @@
+query FetchReviewSettings($container: String!, $key: String!) {
+  customObject(container: $container, key: $key) {
+    value
+    version
+  }
+}

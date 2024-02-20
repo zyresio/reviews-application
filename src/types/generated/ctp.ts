@@ -16271,6 +16271,35 @@ export type TUpdateChannelDetailsMutation = {
   } | null;
 };
 
+export type TFetchReviewSettingsQueryVariables = Exact<{
+  container: Scalars['String'];
+  key: Scalars['String'];
+}>;
+
+export type TFetchReviewSettingsQuery = {
+  __typename?: 'Query';
+  customObject?: {
+    __typename?: 'CustomObject';
+    value: { [key: string]: unknown };
+    version: number;
+  } | null;
+};
+
+export type TUpdateReviewSettingsMutationVariables = Exact<{
+  value: Scalars['String'];
+  container: Scalars['String'];
+  key: Scalars['String'];
+  version?: InputMaybe<Scalars['Long']>;
+}>;
+
+export type TUpdateReviewSettingsMutation = {
+  __typename?: 'Mutation';
+  createOrUpdateCustomObject?: {
+    __typename?: 'CustomObject';
+    version: number;
+  } | null;
+};
+
 export type TDeleteReviewMutationVariables = Exact<{
   version: Scalars['Long'];
   id: Scalars['String'];

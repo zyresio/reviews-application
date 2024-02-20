@@ -25,6 +25,22 @@ declare module '*/update-channel-details.ctp.graphql' {
   export default defaultDocument;
 }
 
+declare module '*/fetch-review-settings.ctp.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const FetchReviewSettings: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module '*/update-review-settings.ctp.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateReviewSettings: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module '*/delete-review.ctp.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -1,0 +1,17 @@
+mutation UpdateReviewSettings(
+  $value: String!
+  $container: String!
+  $key: String!
+  $version: Long
+) {
+  createOrUpdateCustomObject(
+    draft: {
+      container: $container
+      key: $key
+      value: $value
+      version: $version
+    }
+  ) {
+    version
+  }
+}
