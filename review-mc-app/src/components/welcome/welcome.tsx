@@ -1,16 +1,14 @@
-import type { ReactNode } from 'react';
-import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
-import { useIntl } from 'react-intl';
+// import type { ReactNode } from 'react';
+import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Constraints from '@commercetools-uikit/constraints';
-import Grid from '@commercetools-uikit/grid';
-import { AngleRightIcon } from '@commercetools-uikit/icons';
+// import Grid from '@commercetools-uikit/grid';
+// import { AngleRightIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
 import messages from './messages';
-import styles from './welcome.module.css';
-import WebDeveloperSvg from './web-developer.svg';
+// import styles from './welcome.module.css';
 
-type TWrapWithProps = {
+/* type TWrapWithProps = {
   children: ReactNode;
   condition: boolean;
   wrapper: (children: ReactNode) => ReactNode;
@@ -62,29 +60,20 @@ const InfoCard = (props: TInfoCardProps) => (
     </div>
   </Grid.Item>
 );
-InfoCard.displayName = 'InfoCard';
+InfoCard.displayName = 'InfoCard'; */
 
 const Welcome = () => {
   const match = useRouteMatch();
-  const intl = useIntl();
+  // const intl = useIntl();
 
   return (
     <Constraints.Horizontal max={16}>
       <Spacings.Stack scale="xl">
         <Text.Headline as="h1" intlMessage={messages.title} />
-        <div>
-          <div className={styles.imageContainer}>
-            <img
-              alt="web developer"
-              src={WebDeveloperSvg}
-              width="100%"
-              height="100%"
-            />
-          </div>
-        </div>
-
-        <Spacings.Stack scale="l">
-          <Text.Subheadline as="h4" intlMessage={messages.subtitle} />
+        <RouterLink to={`${match.url}/approval`}>Approval</RouterLink>
+        <RouterLink to={`${match.url}/settings`}>Settings</RouterLink>
+        {/* <Spacings.Stack scale="l"
+           <Text.Subheadline as="h4" intlMessage={messages.subtitle} /> 
           <Grid
             gridGap="16px"
             gridAutoColumns="1fr"
@@ -108,7 +97,7 @@ const Welcome = () => {
               linkTo={`${match.url}/channels`}
             />
           </Grid>
-        </Spacings.Stack>
+        </Spacings.Stack>*/}
       </Spacings.Stack>
     </Constraints.Horizontal>
   );

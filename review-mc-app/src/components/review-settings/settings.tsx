@@ -1,19 +1,20 @@
+import { useState } from 'react';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 import Spacings from '@commercetools-uikit/spacings';
+import LocalizedTextField from '@commercetools-uikit/localized-text-field';
+import CheckBoxInput from '@commercetools-uikit/checkbox-input';
+import PrimaryButton from '@commercetools-uikit/primary-button';
+import Text from '@commercetools-uikit/text';
+import { ContentNotification } from '@commercetools-uikit/notifications';
+
 import {
   SettingsType,
   useReviewSettingsFetcher,
   useReviewSettingsUpdateMutation,
 } from '../../hooks/use-review-settings-connector/use-review-settings-connector';
-import { ContentNotification } from '@commercetools-uikit/notifications';
-import Text from '@commercetools-uikit/text';
-import LocalizedTextField from '@commercetools-uikit/localized-text-field';
-import CheckBoxInput from '@commercetools-uikit/checkbox-input';
-import PrimaryButton from '@commercetools-uikit/primary-button';
 import messages from './messages';
 import { getErrorMessage } from '../../helpers';
-import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
-import { useState } from 'react';
 
 const Settings = () => {
   const { dataLocale, projectLanguages } = useApplicationContext((context) => ({
@@ -81,10 +82,9 @@ function SettingsForm({
   const [message, setMessage] = useState(defaultMessage);
   const [moderate, setModerate] = useState(defaultModerate);
   const [touched, setTouched] = useState(false);
-  console.log(touched);
 
   return (
-    <>
+    <Spacings.Stack scale="l">
       <CheckBoxInput
         isChecked={moderate}
         onChange={(e) => {
@@ -110,7 +110,7 @@ function SettingsForm({
         label="Save"
         isDisabled={!touched}
         style={{
-          alignSelf: 'end',
+          alignSelf: 'start',
         }}
         onClick={async () => {
           await save({
@@ -123,8 +123,10 @@ function SettingsForm({
       >
         Save
       </PrimaryButton>
-    </>
+    </Spacings.Stack>
   );
 }
+
+Settings.displayName = "Review Settings";
 
 export default Settings;

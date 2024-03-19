@@ -34,7 +34,7 @@ const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
         <Route path={`${match.path}/settings`}>
           <Settings />
         </Route>
-        <Route>
+        <Route path={`${match.path}`}>
           <Welcome />
         </Route>
       </Switch>
