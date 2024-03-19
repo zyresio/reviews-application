@@ -1,6 +1,8 @@
 deployAs:
   - name: review-mc-app
     applicationType: merchant-center-custom-application
+    scripts:
+      postDeploy: yarn && yarn build
     configuration:
       standardConfiguration:
         - key: CUSTOM_APPLICATION_ID
