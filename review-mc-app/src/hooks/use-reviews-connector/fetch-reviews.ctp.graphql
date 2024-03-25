@@ -11,12 +11,18 @@ query FetchReviews(
     results {
       customer {
         email
+        id
       }
+      createdAt
       version
       id
       rating
       text
       locale
+      target {
+        id
+        __typename
+      }
       state {
         key
         id

@@ -35,18 +35,34 @@ import type { TFetchReviewsQuery } from '../../types/generated/ctp';
 // import { useChannelsFetcher } from '../../hooks/use-channels-connector';
 import { getErrorMessage } from '../../helpers';
 import messages from './messages';
-
+  
 import {
   useReviewsFetcher,
   useReviewTrantionMutation,
 } from '../../hooks/use-reviews-connector';
 import { useReviewDeleteMutation } from '../../hooks/use-reviews-connector/use-reviews-connector';
+import { ProjectLink } from '../common/ProjectLink';
 
 const columns: TColumn<
   NonNullable<TFetchReviewsQuery['reviews']['results']>[0]
 >[] = [
     { key: 'rating', label: 'Rating', isSortable: true },
     { key: 'text', label: 'Text', isSortable: true },
+    { 
+      key: 'createdAt',
+      label: 'Created At',
+      // isSortable: true 
+    },
+    {
+      key: 'customer.id',
+      label: 'Customer',
+      shouldIgnoreRowClick: true,
+    },
+    {
+      key: 'target.id',
+      label: 'Product',
+      shouldIgnoreRowClick: true,
+    },
     {
       key: 'actions',
       label: 'Actions',
@@ -122,6 +138,12 @@ const Reviews = (props: TChannelsProps) => {
                   return item.rating;
                 case 'text':
                   return item.text;
+                case 'createdAt':
+                  return new Date(item.createdAt).toLocaleDateString();
+                case 'customer.id':
+                  return <ProjectLink href={`/customers/${item.customer?.id}`}>{item.customer?.email}</ProjectLink>;
+                case 'target.id':
+                  return <ProjectLink href={`/products/${item.target?.id}`}>{item.target?.id}</ProjectLink>;
                 case 'actions':
                   return (
                     <Spacings.Inline scale="m">
