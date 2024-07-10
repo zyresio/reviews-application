@@ -1,4 +1,3 @@
-// import type { ReactNode } from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Constraints from '@commercetools-uikit/constraints';
 // import Grid from '@commercetools-uikit/grid';
