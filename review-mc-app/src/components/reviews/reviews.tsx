@@ -35,7 +35,7 @@ import type { TFetchReviewsQuery } from '../../types/generated/ctp';
 // import { useChannelsFetcher } from '../../hooks/use-channels-connector';
 import { getErrorMessage } from '../../helpers';
 import messages from './messages';
-  
+
 import {
   useReviewsFetcher,
   useReviewTrantionMutation,
@@ -46,30 +46,30 @@ import { ProjectLink } from '../common/ProjectLink';
 const columns: TColumn<
   NonNullable<TFetchReviewsQuery['reviews']['results']>[0]
 >[] = [
-    { key: 'rating', label: 'Rating', isSortable: true },
-    { key: 'text', label: 'Text', isSortable: true },
-    { 
-      key: 'createdAt',
-      label: 'Created At',
-      // isSortable: true 
-    },
-    {
-      key: 'customer.id',
-      label: 'Customer',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'target.id',
-      label: 'Product',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      shouldIgnoreRowClick: true,
-      width: 'min-content',
-    },
-  ];
+  { key: 'rating', label: 'Rating', isSortable: true },
+  { key: 'text', label: 'Text', isSortable: true },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+    // isSortable: true
+  },
+  {
+    key: 'customer.id',
+    label: 'Customer',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'target.id',
+    label: 'Product',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    shouldIgnoreRowClick: true,
+    width: 'min-content',
+  },
+];
 
 type TChannelsProps = {
   linkToWelcome: string;
@@ -141,9 +141,17 @@ const Reviews = (props: TChannelsProps) => {
                 case 'createdAt':
                   return new Date(item.createdAt).toLocaleDateString();
                 case 'customer.id':
-                  return <ProjectLink href={`/customers/${item.customer?.id}`}>{item.customer?.email}</ProjectLink>;
+                  return (
+                    <ProjectLink href={`/customers/${item.customer?.id}`}>
+                      {item.customer?.email}
+                    </ProjectLink>
+                  );
                 case 'target.id':
-                  return <ProjectLink href={`/products/${item.target?.id}`}>{item.target?.id}</ProjectLink>;
+                  return (
+                    <ProjectLink href={`/products/${item.target?.id}`}>
+                      {item.target?.id}
+                    </ProjectLink>
+                  );
                 case 'actions':
                   return (
                     <Spacings.Inline scale="m">
@@ -201,7 +209,7 @@ const Reviews = (props: TChannelsProps) => {
             sortedBy={tableSorting.value.key}
             sortDirection={tableSorting.value.order}
             onSortChange={tableSorting.onChange}
-          // onRowClick={(row) => push(`${match.url}/${row.id}`)}
+            // onRowClick={(row) => push(`${match.url}/${row.id}`)}
           />
           <Pagination
             page={page.value}

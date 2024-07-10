@@ -127,6 +127,6 @@ function SettingsForm({
   );
 }
 
-Settings.displayName = "Review Settings";
+Settings.displayName = 'Review Settings';
 
 export default Settings;

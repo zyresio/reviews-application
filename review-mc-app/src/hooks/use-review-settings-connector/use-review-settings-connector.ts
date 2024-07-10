@@ -79,12 +79,12 @@ export const useReviewSettingsFetcher: TUseReviewSettingsFetcher = () => {
     reviewSettingsResult: validatedData.success
       ? { value: validatedData.data, version: data?.customObject?.version }
       : // default value if no valid value present
-      {
-        value: {
-          reviewMessage: {},
-          moderateReviews: true,
+        {
+          value: {
+            reviewMessage: {},
+            moderateReviews: true,
+          },
         },
-      },
   };
 };
 

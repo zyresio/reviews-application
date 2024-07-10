@@ -14,10 +14,5 @@ export const ProjectLink: React.FC<ProjectLinkProps> = ({ href, children }) => {
   // Constructing the new path by appending the href prop to the base path
   const newPath = `/${basePath}${href.startsWith('/') ? '' : '/'}${href}`;
 
-  return (
-    <Link to={newPath}>
-      {children}
-    </Link>
-  );
+  return <Link to={newPath}>{children}</Link>;
 };
-

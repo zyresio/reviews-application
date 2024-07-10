@@ -25,9 +25,6 @@ const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
   return (
     <Spacings.Inset scale="l">
       <Switch>
-        { /* <Route path={`${match.path}/channels`}>
-          <Channels linkToWelcome={match.url} />
-        </Route> */ }
         <Route path={`${match.path}/approval`}>
           <Reviews linkToWelcome={match.url} />
         </Route>
