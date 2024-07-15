@@ -2,7 +2,11 @@
 
 ## Environment
 
-Create .env file: `cp .env.example .env`
+Create .env file
+
+```bash
+cp .env.example .env
+```
 
 ### Variables
 
@@ -16,5 +20,14 @@ Create .env file: `cp .env.example .env`
 
 ## Develop
 
-1. Install Packages: `yarn`
-2. Start development server: `yarn start`
+1. Install Packages
+   
+   ```bash
+   yarn
+   ```
+
+2. Start development server
+
+   ```bash
+   yarn start
+   ```
