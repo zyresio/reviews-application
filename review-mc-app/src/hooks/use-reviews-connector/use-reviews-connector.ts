@@ -7,7 +7,6 @@ import {
   useMcQuery,
 } from '@commercetools-frontend/application-shell';
 import { GRAPHQL_TARGETS } from '@commercetools-frontend/constants';
-// import { createSyncChannels } from '@commercetools/sync-actions';
 import type { TDataTableSortingState } from '@commercetools-uikit/hooks';
 import type {
   TDeleteReviewMutation,
@@ -17,17 +16,11 @@ import type {
   TTransitionReviewMutation,
   TTransitionReviewMutationVariables,
 } from '../../types/generated/ctp';
-import {
-  // createGraphQlUpdateActions,
-  extractErrorFromGraphQlResponse,
-  // convertToActionData,
-} from '../../helpers';
+import { extractErrorFromGraphQlResponse } from '../../helpers';
 
 import TransitionReviewMutation from './transition-review.ctp.graphql';
 import DeleteReviewMutation from './delete-review.ctp.graphql';
 import FetchReviewsQuery from './fetch-reviews.ctp.graphql';
-
-// const syncChannels = createSyncChannels();
 
 type PaginationAndSortingProps = {
   page: { value: number };
@@ -73,34 +66,6 @@ export const useReviewsFetcher: TUseReviewsFetcher = ({
   };
 };
 
-// type TUseChannelDetailsFetcher = (channelId: string) => {
-//   channel?: TFetchChannelDetailsQuery['channel'];
-//   error?: ApolloError;
-//   loading: boolean;
-// };
-//
-// export const useChannelDetailsFetcher: TUseChannelDetailsFetcher = (
-//   channelId
-// ) => {
-//   const { data, error, loading } = useMcQuery<
-//     TFetchChannelDetailsQuery,
-//     TFetchChannelDetailsQueryVariables
-//   >(FetchChannelDetailsQuery, {
-//     variables: {
-//       channelId,
-//     },
-//     context: {
-//       target: GRAPHQL_TARGETS.COMMERCETOOLS_PLATFORM,
-//     },
-//   });
-//
-//   return {
-//     channel: data?.channel,
-//     error,
-//     loading,
-//   };
-// };
-//
 export const useReviewTrantionMutation = () => {
   const [transitionReview, { loading }] = useMcMutation<
     TTransitionReviewMutation,

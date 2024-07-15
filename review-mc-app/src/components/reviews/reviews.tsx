@@ -1,7 +1,5 @@
 import { useIntl } from 'react-intl';
-import {
-  Link as RouterLink,
-} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   usePaginationState,
   useDataTableSortingState,
@@ -34,29 +32,29 @@ import { ProjectLink } from '../common/ProjectLink';
 const columns: TColumn<
   NonNullable<TFetchReviewsQuery['reviews']['results']>[0]
 >[] = [
-    { key: 'rating', label: 'Rating', isSortable: true },
-    { key: 'text', label: 'Text', isSortable: true },
-    {
-      key: 'createdAt',
-      label: 'Created At',
-    },
-    {
-      key: 'customer.id',
-      label: 'Customer',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'target.id',
-      label: 'Product',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      shouldIgnoreRowClick: true,
-      width: 'min-content',
-    },
-  ];
+  { key: 'rating', label: 'Rating', isSortable: true },
+  { key: 'text', label: 'Text', isSortable: true },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+  },
+  {
+    key: 'customer.id',
+    label: 'Customer',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'target.id',
+    label: 'Product',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    shouldIgnoreRowClick: true,
+    width: 'min-content',
+  },
+];
 
 type TChannelsProps = {
   linkToWelcome: string;
