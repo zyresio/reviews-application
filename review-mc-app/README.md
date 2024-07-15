@@ -1,16 +1,17 @@
-<p align="center">
-  <a href="https://commercetools.com/">
-    <img alt="commercetools logo" src="https://unpkg.com/@commercetools-frontend/assets/logos/commercetools_primary-logo_horizontal_RGB.png">
-  </a>
-  <b>Custom Application starter template in TypeScript</b>
-</p>
+# Reviews - Commercetools custom application
 
-This is the [TypeScript](https://www.typescriptlang.org/) version of the starter template to [develop Custom Applications](https://docs.commercetools.com/custom-applications/) for the Merchant Center.
+## Develop
 
-# Installing the template
+1. Install Packages: `yarn`
+2. Setup Environment: `cp .env.example .env`
+3. Start development server: `yarn start`
 
-Read the [Getting started](https://docs.commercetools.com/custom-applications/getting-started) documentation for more information.
+## Environment
 
-# Developing the Custom Application
-
-Learn more about [developing a Custom Application](https://docs.commercetools.com/custom-applications/development) and [how to use the CLI](https://docs.commercetools.com/custom-applications/api-reference/cli).
+- [MC_API_URL](https://docs.commercetools.com/merchant-center-customizations/concepts/merchant-center-api#available-regions)
+- [MC_ACCESS_TOKEN](https://docs.commercetools.com/tutorials/curl-cheatsheet#get-your-access-token): Needed for graphql codegen
+- MC_PROJECT_KEY: Can be found in the merchant center
+- ENTRY_POINT_URI_PATH: the sub-route of the application
+- CLOUD_IDENTIFIER: your commercetools region (should be the same as in MC_API_URL)
+- [CUSTOM_APPLICATION_ID](https://docs.commercetools.com/merchant-center-customizations/api-reference/custom-application-config#envproductionapplicationid): As long as you are developing the Custom Application locally, you can define any random value as it's a required field.
+- [APPLICATION_URL](https://docs.commercetools.com/merchant-center-customizations/api-reference/custom-application-config#envproductionurl): same as CUSTOM_APPLICATION_ID
