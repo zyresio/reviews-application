@@ -2843,21 +2843,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools-test-data/state@npm:^9.0.7":
-  version: 9.0.7
-  resolution: "@commercetools-test-data/state@npm:9.0.7"
-  dependencies:
-    "@babel/runtime": "npm:^7.17.9"
-    "@babel/runtime-corejs3": "npm:^7.17.9"
-    "@commercetools-test-data/commons": "npm:9.0.7"
-    "@commercetools-test-data/core": "npm:9.0.7"
-    "@commercetools-test-data/utils": "npm:9.0.7"
-    "@commercetools/platform-sdk": "npm:^7.0.0"
-    "@faker-js/faker": "npm:^8.0.0"
-  checksum: 10c0/b5b474289e75215f770fde144c1ca9aaa424b276a4e1a832f1c34269893268e535e6ba72b9fd425f02d4ebdb9423bdee827f40962126fe05ec6bc78333f5a945
-  languageName: node
-  linkType: hard
-
 "@commercetools-test-data/utils@npm:9.0.7":
   version: 9.0.7
   resolution: "@commercetools-test-data/utils@npm:9.0.7"
@@ -10104,7 +10089,6 @@ __metadata:
     "@commercetools-test-data/commons": "npm:9.0.7"
     "@commercetools-test-data/core": "npm:9.0.7"
     "@commercetools-test-data/review": "npm:9.0.7"
-    "@commercetools-test-data/state": "npm:^9.0.7"
     "@commercetools-uikit/checkbox-input": "npm:^19.7.0"
     "@commercetools-uikit/constraints": "npm:^19.7.0"
     "@commercetools-uikit/data-table": "npm:^19.7.0"
@@ -10147,13 +10131,11 @@ __metadata:
     eslint: "npm:8.57.0"
     eslint-formatter-pretty: "npm:4.1.0"
     eslint-plugin-graphql: "npm:^4.0.0"
-    formik: "npm:2.4.6"
     graphql: "npm:^16.9.0"
     graphql-tag: "npm:^2.12.6"
     jest: "npm:29.7.0"
     jest-runner-eslint: "npm:2.2.0"
     jest-watch-typeahead: "npm:2.2.2"
-    moment: "npm:^2.30.1"
     msw: "npm:2.3.1"
     omit-empty-es: "npm:1.2.0"
     prettier: "npm:3.3.3"
@@ -12362,24 +12344,6 @@ __metadata:
     combined-stream: "npm:^1.0.8"
     mime-types: "npm:^2.1.12"
   checksum: 10c0/1ccc3ae064a080a799923f754d49fcebdd90515a8924f0f54de557540b50e7f1fe48ba5f2bd0435a5664aa2d49729107e6aaf2155a9abf52339474c5638b4485
-  languageName: node
-  linkType: hard
-
-"formik@npm:2.4.6":
-  version: 2.4.6
-  resolution: "formik@npm:2.4.6"
-  dependencies:
-    "@types/hoist-non-react-statics": "npm:^3.3.1"
-    deepmerge: "npm:^2.1.1"
-    hoist-non-react-statics: "npm:^3.3.0"
-    lodash: "npm:^4.17.21"
-    lodash-es: "npm:^4.17.21"
-    react-fast-compare: "npm:^2.0.1"
-    tiny-warning: "npm:^1.0.2"
-    tslib: "npm:^2.0.0"
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: 10c0/e2853fc7833649386ff183eac9cb6a69a999c4b05aabe5636152e1cec1eb35ac0d9f511425624f0d7a88c6e19d4fd2aa259399a6683f0475c30170a5a3ea4f79
   languageName: node
   linkType: hard
 
@@ -15840,7 +15804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.29.4, moment@npm:^2.30.1":
+"moment@npm:^2.29.4":
   version: 2.30.1
   resolution: "moment@npm:2.30.1"
   checksum: 10c0/865e4279418c6de666fca7786607705fd0189d8a7b7624e2e56be99290ac846f90878a6f602e34b4e0455c549b85385b1baf9966845962b313699e7cb847543a

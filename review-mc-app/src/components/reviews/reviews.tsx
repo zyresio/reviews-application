@@ -32,29 +32,29 @@ import { ProjectLink } from '../common/ProjectLink';
 const columns: TColumn<
   NonNullable<TFetchReviewsQuery['reviews']['results']>[0]
 >[] = [
-    { key: 'rating', label: 'Rating', isSortable: true },
-    { key: 'text', label: 'Text', isSortable: true },
-    {
-      key: 'createdAt',
-      label: 'Created At',
-    },
-    {
-      key: 'customer.id',
-      label: 'Customer',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'target.id',
-      label: 'Product',
-      shouldIgnoreRowClick: true,
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      shouldIgnoreRowClick: true,
-      width: 'min-content',
-    },
-  ];
+  { key: 'rating', label: 'Rating', isSortable: true },
+  { key: 'text', label: 'Text', isSortable: true },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+  },
+  {
+    key: 'customer.id',
+    label: 'Customer',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'target.id',
+    label: 'Product',
+    shouldIgnoreRowClick: true,
+  },
+  {
+    key: 'actions',
+    label: 'Actions',
+    shouldIgnoreRowClick: true,
+    width: 'min-content',
+  },
+];
 
 type TChannelsProps = {
   linkToWelcome: string;
@@ -133,17 +133,17 @@ const Reviews = (props: TChannelsProps) => {
                         iconLeft={<CheckBoldIcon />}
                         disabled={transition.loading}
                         onClick={async () => {
-                          console.log("onclick fired");
+                          console.log('onclick fired');
                           const newStateId = item.state?.transitions?.[0]?.id;
-                          console.log("item", JSON.stringify(item, null, 2));
-                          console.log("new state", newStateId);
+                          console.log('item', JSON.stringify(item, null, 2));
+                          console.log('new state', newStateId);
                           if (!newStateId) return;
                           await transition.execute({
                             newStateId,
                             reviewId: item.id,
                             version: item.version,
                           });
-                          console.log("awaited transition");
+                          console.log('awaited transition');
                           refetch();
                         }}
                       >

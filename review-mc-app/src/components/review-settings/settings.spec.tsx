@@ -37,34 +37,31 @@ const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
 };
 
 const mockFetchSettings = graphql.query('FetchReviewSettings', () => {
-  return HttpResponse.json(
-    {
-      data: {
-        customObject:
-        {
-          "value": {
-            "reviewMessage": {
-              "de": "Um dieses Produkt zu bewerten, wählen Sie eine Sternebewertung aus und schreiben Sie Ihre Kommentare unten",
-              "en": "To review this product, select a star rating and write your comments below",
-              "fr": "Pour donner votre avis sur ce produit, sélectionnez un classement par étoiles et écrivez vos commentaires ci-dessous"
-            },
-            "moderateReviews": true
+  return HttpResponse.json({
+    data: {
+      customObject: {
+        value: {
+          reviewMessage: {
+            de: 'Um dieses Produkt zu bewerten, wählen Sie eine Sternebewertung aus und schreiben Sie Ihre Kommentare unten',
+            en: 'To review this product, select a star rating and write your comments below',
+            fr: 'Pour donner votre avis sur ce produit, sélectionnez un classement par étoiles et écrivez vos commentaires ci-dessous',
           },
-          "version": 15,
-          "__typename": "CustomObject"
-        }
-      }
-    }
-  )
-})
+          moderateReviews: true,
+        },
+        version: 15,
+        __typename: 'CustomObject',
+      },
+    },
+  });
+});
 
 it('should render settings page', async () => {
-  mockServer.use(
-    mockFetchSettings
-  );
+  mockServer.use(mockFetchSettings);
 
   renderApp();
 
   await screen.findByText('Review Settings');
-  await screen.findByDisplayValue('To review this product, select a star rating and write your comments below');
+  await screen.findByDisplayValue(
+    'To review this product, select a star rating and write your comments below'
+  );
 });

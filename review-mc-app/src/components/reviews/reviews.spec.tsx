@@ -50,29 +50,25 @@ const mockFetchReviews = graphql.query('FetchReviews', ({ variables }) => {
 
   if (removed && offset === 0) offset = 1;
 
-  return HttpResponse.json(
-    {
-      data: {
-        reviews: buildGraphqlList<TReview>(
-          Array.from({ length: itemsPerPage }).map((_, index) =>
-            Review.random()
-              .text(`review-key-${offset === 0 ? index : 20 + index}`)
-              .key(`review-key-${offset === 0 ? index : 20 + index}`)
-          ),
-          {
-            name: 'Review',
-            total: totalItems,
-          }
+  return HttpResponse.json({
+    data: {
+      reviews: buildGraphqlList<TReview>(
+        Array.from({ length: itemsPerPage }).map((_, index) =>
+          Review.random()
+            .text(`review-key-${offset === 0 ? index : 20 + index}`)
+            .key(`review-key-${offset === 0 ? index : 20 + index}`)
         ),
-      }
-    }
-  )
-})
+        {
+          name: 'Review',
+          total: totalItems,
+        }
+      ),
+    },
+  });
+});
 
 it('should render reviews and paginate to second page', async () => {
-  mockServer.use(
-    mockFetchReviews
-  );
+  mockServer.use(mockFetchReviews);
 
   renderApp();
 
@@ -92,18 +88,16 @@ it('should render reviews and paginate to second page', async () => {
 it('should delete reviews', async () => {
   mockServer.use(
     mockFetchReviews,
-    graphql.mutation('DeleteReview', ({ }) => {
+    graphql.mutation('DeleteReview', ({}) => {
       // Simulate a server side pagination.
       removed = true;
-      return HttpResponse.json(
-        {
-          data: {
-            deleteReview: {
-              id: "test"
-            }
-          }
-        }
-      )
+      return HttpResponse.json({
+        data: {
+          deleteReview: {
+            id: 'test',
+          },
+        },
+      });
     })
   );
 
@@ -112,9 +106,7 @@ it('should delete reviews', async () => {
   // wait for data
   await screen.findByText('review-key-0');
 
-
-  fireEvent.click(await screen.findByLabelText("Delete review-key-0"));
-
+  fireEvent.click(await screen.findByLabelText('Delete review-key-0'));
 
   await waitForElementToBeRemoved(() => screen.queryByText('review-key-0'));
 
