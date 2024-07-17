@@ -1,29 +1,15 @@
-# Commercetools Connect
+# Zyres - ReZy
 
-The `connect.yaml` file defines the variables for every package and the type.
+## Introduction
 
-## To add a new Package
+- this application provides a custom application in the commercetools Merchant Center
+- you will find a new tab in the merchant center for Reviews where you can approve and delete reviews for products.
 
-1. make a new folder like "review-mc-app" and develop a application inside the folder.
-2. add the package to the `connect.yaml` file
+## Prerequisite
 
-## Deployment of a new Version
+- a custom application in the commercetools Merchant Center
 
-1. Tag the commit to deploy and create a github release with this commit.
-2. Update the tag of the Connector in the merchant center (*My Profile > Organizations > [Your Organization] > Connect > Manage Connectors > Review Application > Repository Tag*) / api (view docs) and republish. **This will only update the connector itself and not any installation of this connector.**
-3. Update the Installation of the Connector either remove the old installation in the Merchant Center (*My Profile > Organizations > [Your Organization] > Connect > Manage Connectors > Installations > Review Application*) or use the API to redeploy and update the Connector with the following POST reqest:
+## Installation
 
-```bash
-curl --location --request POST 'https://connect.europe-west1.gcp.commercetools.com/<project-key>/deployments/<deployment-id>' \
---header 'Authorization: Bearer <access-token>' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "version": <version>,
-    "actions": [
-        {
-            "action": "redeploy",
-            "updateConnector": true
-        }
-    ]
-}'
-```
+- when deploying the connect app, provide the Application ID and entryPointUriPath that is provided when you added the Custom Application in the Merchant Center
+- in case that the Application URL is not applied automatically, please insert the URL of the connect custom application in the settings of your custom application
