@@ -107,6 +107,5 @@
     "@types/react-dom": "<18",
     "@types/react-router": "<6",
     "@types/react-router-dom": "<6"
-  },
-  "packageManager": "yarn@4.3.1"
+  }
 }
