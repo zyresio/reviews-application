@@ -7,25 +7,18 @@ import {
   useMcQuery,
 } from '@commercetools-frontend/application-shell';
 import { GRAPHQL_TARGETS } from '@commercetools-frontend/constants';
-// import { createSyncChannels } from '@commercetools/sync-actions';
 import type {
   TFetchReviewSettingsQuery,
   TFetchReviewSettingsQueryVariables,
   TUpdateReviewSettingsMutation,
   TUpdateReviewSettingsMutationVariables,
 } from '../../types/generated/ctp';
-import {
-  // createGraphQlUpdateActions,
-  extractErrorFromGraphQlResponse,
-  // convertToActionData,
-} from '../../helpers';
+import { extractErrorFromGraphQlResponse } from '../../helpers';
 
 import FetchReviewSettingsQuery from './fetch-review-settings.ctp.graphql';
 import UpdateReivewSettingsMutation from './update-review-settings.ctp.graphql';
 
 import * as z from 'zod';
-
-// const syncChannels = createSyncChannels();
 
 const CUSTOM_OBJECT_IDENTIFIER = {
   container: 'zy-reviews',
@@ -38,13 +31,6 @@ const SettingsSchema = z.object({
 });
 
 export type SettingsType = z.infer<typeof SettingsSchema>;
-
-// type PaginationAndSortingProps = {
-//   page: { value: number };
-//   perPage: { value: number };
-//   tableSorting: TDataTableSortingState;
-//   where?: string;
-// };
 
 type TUseReviewSettingsFetcher = () => {
   reviewSettingsResult?: {
@@ -88,34 +74,6 @@ export const useReviewSettingsFetcher: TUseReviewSettingsFetcher = () => {
   };
 };
 
-// type TUseChannelDetailsFetcher = (channelId: string) => {
-//   channel?: TFetchChannelDetailsQuery['channel'];
-//   error?: ApolloError;
-//   loading: boolean;
-// };
-//
-// export const useChannelDetailsFetcher: TUseChannelDetailsFetcher = (
-//   channelId
-// ) => {
-//   const { data, error, loading } = useMcQuery<
-//     TFetchChannelDetailsQuery,
-//     TFetchChannelDetailsQueryVariables
-//   >(FetchChannelDetailsQuery, {
-//     variables: {
-//       channelId,
-//     },
-//     context: {
-//       target: GRAPHQL_TARGETS.COMMERCETOOLS_PLATFORM,
-//     },
-//   });
-//
-//   return {
-//     channel: data?.channel,
-//     error,
-//     loading,
-//   };
-// };
-//
 export const useReviewSettingsUpdateMutation = () => {
   const [transitionReview, { loading }] = useMcMutation<
     TUpdateReviewSettingsMutation,
