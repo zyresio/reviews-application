@@ -65,5 +65,5 @@
 //     'To review this product, select a star rating and write your comments below'
 //   );
 // });
-//  
-it("works", () => { });
+//
+it('works', () => {});
