@@ -6,6 +6,7 @@ import {
 import { renderApplicationWithRedux } from '../../test-utils';
 import { entryPointUriPath, PERMISSIONS } from '../../constants';
 import ApplicationRoutes from '../../routes';
+import messages from "./messages"
 
 const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
   const route = options.route || `/my-project/${entryPointUriPath}`;
@@ -23,5 +24,5 @@ const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
 
 it('should render welcome page', async () => {
   renderApp();
-  await screen.findByText('Develop applications for the Merchant Center');
+  await screen.findByText(messages.title.defaultMessage);
 });
