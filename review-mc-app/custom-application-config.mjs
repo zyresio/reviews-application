@@ -9,7 +9,7 @@ const config = {
   cloudIdentifier: '${env:CLOUD_IDENTIFIER}',
   env: {
     development: {
-      initialProjectKey: 'zyrestestpro01',
+      initialProjectKey: '${env:MC_PROJECT_KEY}',
     },
     production: {
       applicationId: '${env:CUSTOM_APPLICATION_ID}',
