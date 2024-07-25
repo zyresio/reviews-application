@@ -1,7 +1,15 @@
 {
   "Reviews.backToWelcome": "Back to Welcome page",
+  "Reviews.demoHint": "This page demonstrates how you can develop a component following some of the Merchant Center UX Guidelines and development best practices. For instance, fetching data using GraphQL, displaying data in a paginated table, writing functional tests, etc.",
   "Reviews.noResults": "There are no more Reviews to approve in this project.",
   "Reviews.title": "Reviews list",
   "ReviewsSettings.title": "Review Settings",
+  "Welcome.cardChannelsContent": "Demo example to fetch some data using GraphQL and displaying it in a paginated table.",
+  "Welcome.cardChannelsTitle": "Fetching channels",
+  "Welcome.cardDesignSystemContent": "Explore the UI components to develop Custom Applications and learn more about the Design System.",
+  "Welcome.cardDesignSystemTitle": "Design System",
+  "Welcome.cardDocumentationContent": "Learn more about Custom Applications.",
+  "Welcome.cardDocumentationTitle": "Documentation",
+  "Welcome.subtitle": "Welcome to Custom Applications! To get started, inspect the source code to get familiar with the setup, the folder structure, the development tools, etc. and read the README file for additional information.",
   "Welcome.title": "Product Reviews Approval Application"
 }

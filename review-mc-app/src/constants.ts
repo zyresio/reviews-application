@@ -2,9 +2,7 @@
 import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/application-shell/ssr';
 
 export const entryPointUriPath =
-  process.env.NODE_ENV === 'test'
-    ? 'reviews'
-    : typeof window === 'undefined'
+  typeof window === 'undefined'
     ? process.env.ENTRY_POINT_URI_PATH
     : // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).app.entryPointUriPath;
