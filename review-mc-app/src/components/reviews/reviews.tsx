@@ -133,17 +133,13 @@ const Reviews = (props: TChannelsProps) => {
                         iconLeft={<CheckBoldIcon />}
                         disabled={transition.loading}
                         onClick={async () => {
-                          console.log('onclick fired');
                           const newStateId = item.state?.transitions?.[0]?.id;
-                          console.log('item', JSON.stringify(item, null, 2));
-                          console.log('new state', newStateId);
                           if (!newStateId) return;
                           await transition.execute({
                             newStateId,
                             reviewId: item.id,
                             version: item.version,
                           });
-                          console.log('awaited transition');
                           refetch();
                         }}
                       >
