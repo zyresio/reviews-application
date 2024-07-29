@@ -2318,6 +2318,7 @@ export type TCartUpdateAction = {
   changeCustomLineItemPriceMode?: InputMaybe<TChangeCartCustomLineItemPriceMode>;
   changeCustomLineItemQuantity?: InputMaybe<TChangeCartCustomLineItemQuantity>;
   changeLineItemQuantity?: InputMaybe<TChangeCartLineItemQuantity>;
+  changeLineItemsOrder?: InputMaybe<TChangeCartLineItemsOrder>;
   changeTaxCalculationMode?: InputMaybe<TChangeCartTaxCalculationMode>;
   changeTaxMode?: InputMaybe<TChangeCartTaxMode>;
   changeTaxRoundingMode?: InputMaybe<TChangeCartTaxRoundingMode>;
@@ -2707,6 +2708,10 @@ export type TChangeCartLineItemQuantity = {
   lineItemId?: InputMaybe<Scalars['String']['input']>;
   lineItemKey?: InputMaybe<Scalars['String']['input']>;
   quantity: Scalars['Long']['input'];
+};
+
+export type TChangeCartLineItemsOrder = {
+  lineItemOrder: Array<Scalars['String']['input']>;
 };
 
 export type TChangeCartTaxCalculationMode = {
@@ -7466,6 +7471,7 @@ export type TMyCartUpdateAction = {
   applyDeltaToCustomLineItemShippingDetailsTargets?: InputMaybe<TApplyCartDeltaToCustomLineItemShippingDetailsTargets>;
   applyDeltaToLineItemShippingDetailsTargets?: InputMaybe<TApplyCartDeltaToLineItemShippingDetailsTargets>;
   changeLineItemQuantity?: InputMaybe<TChangeCartLineItemQuantity>;
+  changeLineItemsOrder?: InputMaybe<TChangeCartLineItemsOrder>;
   changeTaxMode?: InputMaybe<TChangeMyCartTaxMode>;
   recalculate?: InputMaybe<TRecalculateCart>;
   removeDiscountCode?: InputMaybe<TRemoveCartDiscountCode>;
