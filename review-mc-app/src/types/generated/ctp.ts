@@ -94,6 +94,18 @@ export type TAwsLambdaDestinationInput = {
   arn: Scalars['String']['input'];
 };
 
+export type TAbsoluteCartDiscountValue = TCartDiscountValue & {
+  __typename?: 'AbsoluteCartDiscountValue';
+  applicationMode: TDiscountApplicationMode;
+  money: Array<TMoney>;
+  type: Scalars['String']['output'];
+};
+
+export type TAbsoluteCartDiscountValueInput = {
+  applicationMode: TDiscountApplicationMode;
+  money: Array<TMoneyInput>;
+};
+
 export type TAbsoluteDiscountValue = TCartDiscountValue &
   TProductDiscountValue & {
     __typename?: 'AbsoluteDiscountValue';
@@ -393,9 +405,9 @@ export type TAddProductVariant = {
   staged?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TAddProductVariantTailoring = {
   assets?: InputMaybe<Array<TAssetDraftInput>>;
+  attributes?: InputMaybe<Array<TProductAttributeInput>>;
   id?: InputMaybe<Scalars['Int']['input']>;
   images?: InputMaybe<Array<TImageInput>>;
   sku?: InputMaybe<Scalars['String']['input']>;
@@ -845,6 +857,7 @@ export type TApprovalRule = TVersioned & {
   businessUnitRef: TKeyReference;
   createdAt: Scalars['DateTime']['output'];
   createdBy?: Maybe<TInitiator>;
+  custom?: Maybe<TCustomFieldsType>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   key?: Maybe<Scalars['String']['output']>;
@@ -938,6 +951,8 @@ export type TApprovalRuleStatusSet = TMessagePayload & {
 
 export type TApprovalRuleUpdateAction = {
   setApprovers?: InputMaybe<TSetApprovalRuleApprovers>;
+  setCustomField?: InputMaybe<TSetApprovalRuleCustomField>;
+  setCustomType?: InputMaybe<TSetApprovalRuleCustomType>;
   setDescription?: InputMaybe<TSetApprovalRuleDescription>;
   setKey?: InputMaybe<TSetApprovalRuleKey>;
   setName?: InputMaybe<TSetApprovalRuleName>;
@@ -980,7 +995,8 @@ export type TApproverHierarchyDraft = {
 export type TAsAssociate = TCartQueryInterface &
   TOrderQueryInterface &
   TQuoteQueryInterface &
-  TQuoteRequestQueryInterface & {
+  TQuoteRequestQueryInterface &
+  TShoppingListQueryInterface & {
     __typename?: 'AsAssociate';
     approvalFlow?: Maybe<TApprovalFlow>;
     approvalFlows: TApprovalFlowQueryResult;
@@ -996,6 +1012,8 @@ export type TAsAssociate = TCartQueryInterface &
     quoteRequest?: Maybe<TQuoteRequest>;
     quoteRequests: TQuoteRequestQueryResult;
     quotes: TQuoteQueryResult;
+    shoppingList?: Maybe<TShoppingList>;
+    shoppingLists: TShoppingListQueryResult;
   };
 
 export type TAsAssociate_ApprovalFlowArgs = {
@@ -1074,6 +1092,18 @@ export type TAsAssociate_QuoteRequestsArgs = {
 };
 
 export type TAsAssociate_QuotesArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Array<Scalars['String']['input']>>;
+  where?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TAsAssociate_ShoppingListArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TAsAssociate_ShoppingListsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -1571,7 +1601,7 @@ export type TBusinessUnitAddressChanged = TMessagePayload & {
 
 export type TBusinessUnitAddressCustomFieldAdded = TMessagePayload & {
   __typename?: 'BusinessUnitAddressCustomFieldAdded';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
   value: Scalars['Json']['output'];
@@ -1579,7 +1609,7 @@ export type TBusinessUnitAddressCustomFieldAdded = TMessagePayload & {
 
 export type TBusinessUnitAddressCustomFieldChanged = TMessagePayload & {
   __typename?: 'BusinessUnitAddressCustomFieldChanged';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   oldValue?: Maybe<Scalars['Json']['output']>;
   type: Scalars['String']['output'];
@@ -1588,21 +1618,21 @@ export type TBusinessUnitAddressCustomFieldChanged = TMessagePayload & {
 
 export type TBusinessUnitAddressCustomFieldRemoved = TMessagePayload & {
   __typename?: 'BusinessUnitAddressCustomFieldRemoved';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
 
 export type TBusinessUnitAddressCustomTypeRemoved = TMessagePayload & {
   __typename?: 'BusinessUnitAddressCustomTypeRemoved';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   oldTypeId?: Maybe<Scalars['String']['output']>;
   type: Scalars['String']['output'];
 };
 
 export type TBusinessUnitAddressCustomTypeSet = TMessagePayload & {
   __typename?: 'BusinessUnitAddressCustomTypeSet';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   customFields: TCustomFieldsType;
   oldTypeId?: Maybe<Scalars['String']['output']>;
   type: Scalars['String']['output'];
@@ -1806,7 +1836,7 @@ export type TBusinessUnitQueryResult = {
   total: Scalars['Long']['output'];
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TBusinessUnitSearchConfiguration = {
   __typename?: 'BusinessUnitSearchConfiguration';
   lastModifiedAt: Scalars['DateTime']['output'];
@@ -1814,7 +1844,7 @@ export type TBusinessUnitSearchConfiguration = {
   status: TBusinessUnitSearchStatus;
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export enum TBusinessUnitSearchStatus {
   Activated = 'Activated',
   Deactivated = 'Deactivated',
@@ -1852,6 +1882,10 @@ export type TBusinessUnitStoreAdded = TMessagePayload & {
 
 export type TBusinessUnitStoreModeChanged = TMessagePayload & {
   __typename?: 'BusinessUnitStoreModeChanged';
+  inheritedStores?: Maybe<Array<TStore>>;
+  inheritedStoresRef?: Maybe<Array<TKeyReference>>;
+  oldInheritedStores?: Maybe<Array<TStore>>;
+  oldInheritedStoresRef?: Maybe<Array<TKeyReference>>;
   oldStoreMode: Scalars['String']['output'];
   oldStores?: Maybe<Array<TStore>>;
   oldStoresRef?: Maybe<Array<TKeyReference>>;
@@ -1947,6 +1981,7 @@ export type TCart = TReferenceExpandable &
     locale?: Maybe<Scalars['Locale']['output']>;
     origin: TCartOrigin;
     paymentInfo?: Maybe<TPaymentInfo>;
+    placement?: Maybe<TPlacement>;
     refusedGifts: Array<TCartDiscount>;
     refusedGiftsRefs: Array<TReference>;
     shipping: Array<TShipping>;
@@ -2090,6 +2125,24 @@ export type TCartDiscountLimitsProjection = {
   totalActiveWithoutDiscountCodes: TCartDiscountLimitWithCurrent;
 };
 
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCartDiscountPatternTarget = TCartDiscountTarget & {
+  __typename?: 'CartDiscountPatternTarget';
+  maxOccurrence?: Maybe<Scalars['Int']['output']>;
+  selectionMode: TSelectionMode;
+  targetPattern: Array<TPatternComponent>;
+  triggerPattern: Array<TPatternComponent>;
+  type: Scalars['String']['output'];
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCartDiscountPatternTargetInput = {
+  maxOccurrence?: InputMaybe<Scalars['Int']['input']>;
+  selectionMode?: InputMaybe<TSelectionMode>;
+  targetPattern: Array<TPatternComponentInput>;
+  triggerPattern: Array<TPatternComponentInput>;
+};
+
 /** Fields to access cartDiscounts. Includes direct access to a single cartDiscount and searching for cartDiscounts. */
 export type TCartDiscountQueryInterface = {
   cartDiscount?: Maybe<TCartDiscount>;
@@ -2149,6 +2202,8 @@ export type TCartDiscountTargetInput = {
   lineItems?: InputMaybe<TLineItemsTargetInput>;
   multiBuyCustomLineItems?: InputMaybe<TMultiBuyCustomLineItemsTargetInput>;
   multiBuyLineItems?: InputMaybe<TMultiBuyLineItemsTargetInput>;
+  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+  pattern?: InputMaybe<TCartDiscountPatternTargetInput>;
   shipping?: InputMaybe<TShippingTargetInput>;
   totalPrice?: InputMaybe<TCartDiscountTotalPriceTargetInput>;
 };
@@ -2198,7 +2253,9 @@ export type TCartDiscountValueBaseMoneyInput = {
 
 export type TCartDiscountValueInput = {
   absolute?: InputMaybe<TAbsoluteDiscountValueInput>;
+  absoluteCart?: InputMaybe<TAbsoluteCartDiscountValueInput>;
   fixed?: InputMaybe<TFixedPriceDiscountValueInput>;
+  fixedCart?: InputMaybe<TFixedPriceCartDiscountValueInput>;
   giftLineItem?: InputMaybe<TGiftLineItemValueInput>;
   relative?: InputMaybe<TRelativeDiscountValueInput>;
 };
@@ -2391,6 +2448,7 @@ export type TCartsConfiguration = {
   allowAddingUnpublishedProducts: Scalars['Boolean']['output'];
   countryTaxRateFallbackEnabled: Scalars['Boolean']['output'];
   deleteDaysAfterLastModification?: Maybe<Scalars['Int']['output']>;
+  totalPriceDiscountDoesNotReduceExternalTax: Scalars['Boolean']['output'];
 };
 
 export type TCartsConfigurationInput = {
@@ -2947,7 +3005,7 @@ export type TChangeProductTailoringAssetOrder = {
   variantId?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TChangeProjectSettingsBusinessUnitSearchStatus = {
   status: TBusinessUnitSearchStatus;
 };
@@ -2968,9 +3026,13 @@ export type TChangeProjectSettingsCurrencies = {
   currencies: Array<Scalars['Currency']['input']>;
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
 export type TChangeProjectSettingsCustomerSearchStatus = {
   status: TCustomerSearchStatus;
+};
+
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export type TChangeProjectSettingsDiscountCodeSearchStatus = {
+  status: TDiscountCodeSearchStatus;
 };
 
 export type TChangeProjectSettingsLanguages = {
@@ -3005,6 +3067,15 @@ export type TChangeProjectSettingsProductSearchIndexingEnabled = {
 
 export type TChangeProjectSettingsShoppingListsConfiguration = {
   shoppingListsConfiguration: TShoppingListsConfigurationInput;
+};
+
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export type TChangeProjectSettingsStandalonePriceSearchStatus = {
+  status: TStandalonePriceSearchStatus;
+};
+
+export type TChangeProjectSettingsTotalPriceDiscountDoesNotReduceExternalTax = {
+  value: Scalars['Boolean']['input'];
 };
 
 export type TChangeQuoteCustomer = {
@@ -3438,6 +3509,42 @@ export type TConfluentCloudDestinationInput = {
   topic: Scalars['String']['input'];
 };
 
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCountOnCustomLineItemUnits = TPatternComponent & {
+  __typename?: 'CountOnCustomLineItemUnits';
+  excludeCount?: Maybe<Scalars['Int']['output']>;
+  maxCount?: Maybe<Scalars['Int']['output']>;
+  minCount?: Maybe<Scalars['Int']['output']>;
+  predicate: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCountOnCustomLineItemUnitsInput = {
+  excludeCount?: InputMaybe<Scalars['Int']['input']>;
+  maxCount?: InputMaybe<Scalars['Int']['input']>;
+  minCount?: InputMaybe<Scalars['Int']['input']>;
+  predicate: Scalars['String']['input'];
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCountOnLineItemUnits = TPatternComponent & {
+  __typename?: 'CountOnLineItemUnits';
+  excludeCount?: Maybe<Scalars['Int']['output']>;
+  maxCount?: Maybe<Scalars['Int']['output']>;
+  minCount?: Maybe<Scalars['Int']['output']>;
+  predicate: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TCountOnLineItemUnitsInput = {
+  excludeCount?: InputMaybe<Scalars['Int']['input']>;
+  maxCount?: InputMaybe<Scalars['Int']['input']>;
+  minCount?: InputMaybe<Scalars['Int']['input']>;
+  predicate: Scalars['String']['input'];
+};
+
 export type TCreateApiClient = {
   accessTokenValiditySeconds?: InputMaybe<Scalars['Int']['input']>;
   deleteDaysAfterCreation?: InputMaybe<Scalars['Int']['input']>;
@@ -3831,7 +3938,7 @@ export type TCustomerAddressChanged = TMessagePayload & {
 
 export type TCustomerAddressCustomFieldAdded = TMessagePayload & {
   __typename?: 'CustomerAddressCustomFieldAdded';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
   value: Scalars['Json']['output'];
@@ -3839,7 +3946,7 @@ export type TCustomerAddressCustomFieldAdded = TMessagePayload & {
 
 export type TCustomerAddressCustomFieldChanged = TMessagePayload & {
   __typename?: 'CustomerAddressCustomFieldChanged';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   previousValue?: Maybe<Scalars['Json']['output']>;
   type: Scalars['String']['output'];
@@ -3848,21 +3955,21 @@ export type TCustomerAddressCustomFieldChanged = TMessagePayload & {
 
 export type TCustomerAddressCustomFieldRemoved = TMessagePayload & {
   __typename?: 'CustomerAddressCustomFieldRemoved';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
 };
 
 export type TCustomerAddressCustomTypeRemoved = TMessagePayload & {
   __typename?: 'CustomerAddressCustomTypeRemoved';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   previousTypeId?: Maybe<Scalars['String']['output']>;
   type: Scalars['String']['output'];
 };
 
 export type TCustomerAddressCustomTypeSet = TMessagePayload & {
   __typename?: 'CustomerAddressCustomTypeSet';
-  addressId?: Maybe<Scalars['String']['output']>;
+  addressId: Scalars['String']['output'];
   customFields: TCustomFieldsType;
   previousTypeId?: Maybe<Scalars['String']['output']>;
   type: Scalars['String']['output'];
@@ -4171,7 +4278,6 @@ export type TCustomerQueryResult = {
   total: Scalars['Long']['output'];
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
 export type TCustomerSearchConfiguration = {
   __typename?: 'CustomerSearchConfiguration';
   lastModifiedAt: Scalars['DateTime']['output'];
@@ -4179,7 +4285,6 @@ export type TCustomerSearchConfiguration = {
   status: TCustomerSearchStatus;
 };
 
-/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
 export enum TCustomerSearchStatus {
   Activated = 'Activated',
   Deactivated = 'Deactivated',
@@ -4391,6 +4496,50 @@ export type TDeliveryAddressSet = TMessagePayload &
     type: Scalars['String']['output'];
   };
 
+export type TDeliveryCustomFieldAdded = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'DeliveryCustomFieldAdded';
+    deliveryId: Scalars['String']['output'];
+    name: Scalars['String']['output'];
+    type: Scalars['String']['output'];
+    value: Scalars['Json']['output'];
+  };
+
+export type TDeliveryCustomFieldChanged = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'DeliveryCustomFieldChanged';
+    deliveryId: Scalars['String']['output'];
+    name: Scalars['String']['output'];
+    previousValue?: Maybe<Scalars['Json']['output']>;
+    type: Scalars['String']['output'];
+    value: Scalars['Json']['output'];
+  };
+
+export type TDeliveryCustomFieldRemoved = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'DeliveryCustomFieldRemoved';
+    deliveryId: Scalars['String']['output'];
+    name: Scalars['String']['output'];
+    type: Scalars['String']['output'];
+  };
+
+export type TDeliveryCustomTypeRemoved = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'DeliveryCustomTypeRemoved';
+    deliveryId: Scalars['String']['output'];
+    previousTypeId?: Maybe<Scalars['String']['output']>;
+    type: Scalars['String']['output'];
+  };
+
+export type TDeliveryCustomTypeSet = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'DeliveryCustomTypeSet';
+    customFields: TCustomFieldsType;
+    deliveryId: Scalars['String']['output'];
+    previousTypeId?: Maybe<Scalars['String']['output']>;
+    type: Scalars['String']['output'];
+  };
+
 export type TDeliveryDraft = {
   address?: InputMaybe<TAddressInput>;
   custom?: InputMaybe<TCustomFieldsDraft>;
@@ -4476,6 +4625,12 @@ export type TDirectDiscountDraftOutput = {
   target?: Maybe<TCartDiscountTarget>;
   value: TCartDiscountValue;
 };
+
+export enum TDiscountApplicationMode {
+  EvenDistribution = 'EvenDistribution',
+  IndividualApplication = 'IndividualApplication',
+  ProportionateDistribution = 'ProportionateDistribution',
+}
 
 /** With discount codes it is possible to give specific cart discounts to an eligible amount of users. They are defined by a string value which can be added to a cart so that specific cart discounts can be applied to the cart. */
 export type TDiscountCode = TReferenceExpandable &
@@ -4587,6 +4742,20 @@ export type TDiscountCodeQueryResult = {
   total: Scalars['Long']['output'];
 };
 
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export type TDiscountCodeSearchConfiguration = {
+  __typename?: 'DiscountCodeSearchConfiguration';
+  lastModifiedAt: Scalars['DateTime']['output'];
+  lastModifiedBy?: Maybe<TInitiator>;
+  status: TDiscountCodeSearchStatus;
+};
+
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export enum TDiscountCodeSearchStatus {
+  Activated = 'Activated',
+  Deactivated = 'Deactivated',
+}
+
 export enum TDiscountCodeState {
   /** The discount code is active and none of the discounts were applied because the discount application was stopped by one discount that has the StackingMode of StopAfterThisDiscount defined */
   ApplicationStoppedByPreviousDiscount = 'ApplicationStoppedByPreviousDiscount',
@@ -4680,6 +4849,11 @@ export type TDiscountedTotalPricePortion = {
   discount?: Maybe<TCartDiscount>;
   discountRef: TReference;
   discountedAmount: TBaseMoney;
+};
+
+export type TDiscountsConfiguration = {
+  __typename?: 'DiscountsConfiguration';
+  productVsCartDiscountCombination?: Maybe<TProductVsCartDiscountCombination>;
 };
 
 export type TEnumAttribute = TAttribute & {
@@ -4962,6 +5136,18 @@ export type TFieldTypeSetTypeDraft = {
   elementType: TFieldTypeSetElementTypeDraft;
 };
 
+export type TFixedPriceCartDiscountValue = TCartDiscountValue & {
+  __typename?: 'FixedPriceCartDiscountValue';
+  applicationMode: TDiscountApplicationMode;
+  money: Array<TBaseMoney>;
+  type: Scalars['String']['output'];
+};
+
+export type TFixedPriceCartDiscountValueInput = {
+  applicationMode: TDiscountApplicationMode;
+  money: Array<TCartDiscountValueBaseMoneyInput>;
+};
+
 export type TFixedPriceDiscountValue = TCartDiscountValue & {
   __typename?: 'FixedPriceDiscountValue';
   money: Array<TBaseMoney>;
@@ -5036,7 +5222,6 @@ export type THasProductTailoringData = {
   nameAllLocales?: Maybe<Array<TLocalizedString>>;
   slug?: Maybe<Scalars['String']['output']>;
   slugAllLocales?: Maybe<Array<TLocalizedString>>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   variants: Array<TProductVariantTailoring>;
 };
 
@@ -5206,6 +5391,8 @@ export type TInStore = TCartDiscountQueryInterface &
   TOrderQueryInterface &
   TShippingMethodsByCartInterface & {
     __typename?: 'InStore';
+    businessUnit?: Maybe<TBusinessUnit>;
+    businessUnits: TBusinessUnitQueryResult;
     cart?: Maybe<TCart>;
     cartDiscount?: Maybe<TCartDiscount>;
     cartDiscounts: TCartDiscountQueryResult;
@@ -5235,6 +5422,18 @@ export type TInStore = TCartDiscountQueryInterface &
     stagedQuote?: Maybe<TStagedQuote>;
     stagedQuotes: TStagedQuoteQueryResult;
   };
+
+export type TInStore_BusinessUnitArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TInStore_BusinessUnitsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Array<Scalars['String']['input']>>;
+  where?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type TInStore_CartArgs = {
   id: Scalars['String']['input'];
@@ -5554,6 +5753,7 @@ export type TInventoryEntryUpdateAction = {
   setCustomField?: InputMaybe<TSetInventoryEntryCustomField>;
   setCustomType?: InputMaybe<TSetInventoryEntryCustomType>;
   setExpectedDelivery?: InputMaybe<TSetInventoryEntryExpectedDelivery>;
+  setKey?: InputMaybe<TSetInventoryKey>;
   setRestockableInDays?: InputMaybe<TSetInventoryEntryRestockableInDays>;
   setSupplyChannel?: InputMaybe<TSetInventoryEntrySupplyChannel>;
 };
@@ -6294,7 +6494,6 @@ export type TMoveProductImageToPosition = {
   variantId?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TMoveProductTailoringImageToPosition = {
   imageUrl: Scalars['String']['input'];
   position: Scalars['Int']['input'];
@@ -6566,6 +6765,7 @@ export type TMutation_CreateAttributeGroupArgs = {
 export type TMutation_CreateBusinessUnitArgs = {
   asAssociate?: InputMaybe<TAsAssociateArgument>;
   draft: TBusinessUnitDraft;
+  storeKey?: InputMaybe<Scalars['KeyReferenceInput']['input']>;
 };
 
 export type TMutation_CreateCartArgs = {
@@ -6699,6 +6899,7 @@ export type TMutation_CreateShippingMethodArgs = {
 };
 
 export type TMutation_CreateShoppingListArgs = {
+  asAssociate?: InputMaybe<TAsAssociateArgument>;
   draft: TShoppingListDraft;
   storeKey?: InputMaybe<Scalars['KeyReferenceInput']['input']>;
 };
@@ -6829,6 +7030,7 @@ export type TMutation_DeleteBusinessUnitArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
   key?: InputMaybe<Scalars['String']['input']>;
   personalDataErasure?: InputMaybe<Scalars['Boolean']['input']>;
+  storeKey?: InputMaybe<Scalars['KeyReferenceInput']['input']>;
   version: Scalars['Long']['input'];
 };
 
@@ -6855,7 +7057,8 @@ export type TMutation_DeleteCategoryArgs = {
 };
 
 export type TMutation_DeleteChannelArgs = {
-  id: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['String']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
   version: Scalars['Long']['input'];
 };
 
@@ -7007,6 +7210,7 @@ export type TMutation_DeleteShippingMethodArgs = {
 };
 
 export type TMutation_DeleteShoppingListArgs = {
+  asAssociate?: InputMaybe<TAsAssociateArgument>;
   id?: InputMaybe<Scalars['String']['input']>;
   key?: InputMaybe<Scalars['String']['input']>;
   personalDataErasure?: InputMaybe<Scalars['Boolean']['input']>;
@@ -7117,6 +7321,7 @@ export type TMutation_UpdateBusinessUnitArgs = {
   asAssociate?: InputMaybe<TAsAssociateArgument>;
   id?: InputMaybe<Scalars['String']['input']>;
   key?: InputMaybe<Scalars['String']['input']>;
+  storeKey?: InputMaybe<Scalars['KeyReferenceInput']['input']>;
   version: Scalars['Long']['input'];
 };
 
@@ -7146,7 +7351,8 @@ export type TMutation_UpdateCategoryArgs = {
 
 export type TMutation_UpdateChannelArgs = {
   actions: Array<TChannelUpdateAction>;
-  id: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['String']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
   version: Scalars['Long']['input'];
 };
 
@@ -7610,6 +7816,7 @@ export type TMyQuoteUpdateAction = {
 };
 
 export type TMyShoppingListDraft = {
+  businessUnit?: InputMaybe<TResourceIdentifierInput>;
   custom?: InputMaybe<TCustomFieldsDraft>;
   deleteDaysAfterLastModification?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Array<TLocalizedStringItemInputType>>;
@@ -7727,6 +7934,7 @@ export type TOrder = TReferenceExpandable &
     origin: TCartOrigin;
     paymentInfo?: Maybe<TPaymentInfo>;
     paymentState?: Maybe<TPaymentState>;
+    placement?: Maybe<TPlacement>;
     purchaseOrderNumber?: Maybe<Scalars['String']['output']>;
     quote?: Maybe<TQuote>;
     quoteRef?: Maybe<TReference>;
@@ -8173,6 +8381,13 @@ export type TOrderShippingAddressSet = TMessagePayload &
     type: Scalars['String']['output'];
   };
 
+export type TOrderShippingContainerSet = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'OrderShippingContainerSet';
+    shippingContainer?: Maybe<TShippingContainer>;
+    type: Scalars['String']['output'];
+  };
+
 export type TOrderShippingInfoSet = TMessagePayload &
   TOrderMessagePayload & {
     __typename?: 'OrderShippingInfoSet';
@@ -8187,6 +8402,14 @@ export type TOrderShippingRateInputSet = TMessagePayload &
     oldShippingRateInput?: Maybe<TShippingRateInput>;
     shippingRateInput?: Maybe<TShippingRateInput>;
     type: Scalars['String']['output'];
+  };
+
+export type TOrderShippingUpdated = TMessagePayload &
+  TOrderMessagePayload & {
+    __typename?: 'OrderShippingUpdated';
+    current: TShipping;
+    type: Scalars['String']['output'];
+    updated: TShipping;
   };
 
 export enum TOrderState {
@@ -8390,6 +8613,17 @@ export type TParcelTrackingDataUpdated = TMessagePayload &
     type: Scalars['String']['output'];
   };
 
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TPatternComponent = {
+  type: Scalars['String']['output'];
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TPatternComponentInput = {
+  CountOnCustomLineItemUnits?: InputMaybe<TCountOnCustomLineItemUnitsInput>;
+  CountOnLineItemUnits?: InputMaybe<TCountOnLineItemUnitsInput>;
+};
+
 /**
  * Payments hold information about the current state of receiving and/or refunding money.
  * [documentation](https://docs.commercetools.com/api/projects/payments)
@@ -8569,14 +8803,18 @@ export enum TPermission {
   CreateMyOrdersFromMyCarts = 'CreateMyOrdersFromMyCarts',
   CreateMyOrdersFromMyQuotes = 'CreateMyOrdersFromMyQuotes',
   CreateMyQuoteRequestsFromMyCarts = 'CreateMyQuoteRequestsFromMyCarts',
+  CreateMyShoppingLists = 'CreateMyShoppingLists',
   CreateOrdersFromOthersCarts = 'CreateOrdersFromOthersCarts',
   CreateOrdersFromOthersQuotes = 'CreateOrdersFromOthersQuotes',
   CreateOthersCarts = 'CreateOthersCarts',
+  CreateOthersShoppingLists = 'CreateOthersShoppingLists',
   CreateQuoteRequestsFromOthersCarts = 'CreateQuoteRequestsFromOthersCarts',
   DeclineMyQuotes = 'DeclineMyQuotes',
   DeclineOthersQuotes = 'DeclineOthersQuotes',
   DeleteMyCarts = 'DeleteMyCarts',
+  DeleteMyShoppingLists = 'DeleteMyShoppingLists',
   DeleteOthersCarts = 'DeleteOthersCarts',
+  DeleteOthersShoppingLists = 'DeleteOthersShoppingLists',
   ReassignMyQuotes = 'ReassignMyQuotes',
   ReassignOthersQuotes = 'ReassignOthersQuotes',
   RenegotiateMyQuotes = 'RenegotiateMyQuotes',
@@ -8588,18 +8826,29 @@ export enum TPermission {
   UpdateMyCarts = 'UpdateMyCarts',
   UpdateMyOrders = 'UpdateMyOrders',
   UpdateMyQuoteRequests = 'UpdateMyQuoteRequests',
+  UpdateMyShoppingLists = 'UpdateMyShoppingLists',
   UpdateOthersCarts = 'UpdateOthersCarts',
   UpdateOthersOrders = 'UpdateOthersOrders',
   UpdateOthersQuoteRequests = 'UpdateOthersQuoteRequests',
+  UpdateOthersShoppingLists = 'UpdateOthersShoppingLists',
   UpdateParentUnit = 'UpdateParentUnit',
   ViewMyCarts = 'ViewMyCarts',
   ViewMyOrders = 'ViewMyOrders',
   ViewMyQuoteRequests = 'ViewMyQuoteRequests',
   ViewMyQuotes = 'ViewMyQuotes',
+  ViewMyShoppingLists = 'ViewMyShoppingLists',
   ViewOthersCarts = 'ViewOthersCarts',
   ViewOthersOrders = 'ViewOthersOrders',
   ViewOthersQuoteRequests = 'ViewOthersQuoteRequests',
   ViewOthersQuotes = 'ViewOthersQuotes',
+  ViewOthersShoppingLists = 'ViewOthersShoppingLists',
+}
+
+export enum TPlacement {
+  /** The Order or Cart is placed in-store. */
+  InStore = 'InStore',
+  /** The Order or Cart is placed online. */
+  Online = 'Online',
 }
 
 export type TPlainEnumValue = {
@@ -8783,6 +9032,7 @@ export type TProductCreated = TMessagePayload & {
 
 export type TProductData = {
   __typename?: 'ProductData';
+  /** Fetch all variants, including the master variant in first position. */
   allVariants: Array<TProductVariant>;
   categories: Array<TCategory>;
   categoriesRef: Array<TReference>;
@@ -8811,6 +9061,7 @@ export type TProductData = {
 export type TProductData_AllVariantsArgs = {
   hasImages?: InputMaybe<Scalars['Boolean']['input']>;
   isOnStock?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyMatching?: InputMaybe<Scalars['Boolean']['input']>;
   skus?: InputMaybe<Array<Scalars['String']['input']>>;
   stockChannelIds?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -8861,6 +9112,7 @@ export type TProductData_VariantArgs = {
 export type TProductData_VariantsArgs = {
   hasImages?: InputMaybe<Scalars['Boolean']['input']>;
   isOnStock?: InputMaybe<Scalars['Boolean']['input']>;
+  onlyMatching?: InputMaybe<Scalars['Boolean']['input']>;
   skus?: InputMaybe<Array<Scalars['String']['input']>>;
   stockChannelIds?: InputMaybe<Array<Scalars['String']['input']>>;
 };
@@ -9254,6 +9506,8 @@ export type TProductPricesSet = TMessagePayload & {
 
 export type TProductProjection = {
   __typename?: 'ProductProjection';
+  /** Fetch all variants, including the master variant in first position. If `onlyMatching` is used, filter this list based on the the search query. */
+  allVariants: Array<TProductSearchVariant>;
   categories: Array<TCategory>;
   categoriesRef: Array<TReference>;
   categoryOrderHints: Array<TCategoryOrderHintProductSearch>;
@@ -9284,8 +9538,13 @@ export type TProductProjection = {
   stateRef?: Maybe<TReference>;
   taxCategory?: Maybe<TTaxCategory>;
   taxCategoryRef?: Maybe<TReference>;
+  /** Fetch all variants, excluding the master variant. If `onlyMatching` is used, filter this list based on the the search query. */
   variants: Array<TProductSearchVariant>;
   version: Scalars['Long']['output'];
+};
+
+export type TProductProjection_AllVariantsArgs = {
+  onlyMatching?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type TProductProjection_DescriptionArgs = {
@@ -9316,6 +9575,10 @@ export type TProductProjection_NameArgs = {
 export type TProductProjection_SlugArgs = {
   acceptLanguage?: InputMaybe<Array<Scalars['Locale']['input']>>;
   locale?: InputMaybe<Scalars['Locale']['input']>;
+};
+
+export type TProductProjection_VariantsArgs = {
+  onlyMatching?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type TProductProjectionMessagePayload = {
@@ -9717,7 +9980,6 @@ export type TProductTailoringCreated = THasProductTailoringData &
     slugAllLocales?: Maybe<Array<TLocalizedString>>;
     storeRef: TKeyReference;
     type: Scalars['String']['output'];
-    /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
     variants: Array<TProductVariantTailoring>;
   };
 
@@ -9765,7 +10027,6 @@ export type TProductTailoringData = THasProductTailoringData & {
   nameAllLocales?: Maybe<Array<TLocalizedString>>;
   slug?: Maybe<Scalars['String']['output']>;
   slugAllLocales?: Maybe<Array<TLocalizedString>>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   variants: Array<TProductVariantTailoring>;
 };
 
@@ -9839,11 +10100,9 @@ export type TProductTailoringDraft = {
   product: TResourceIdentifierInput;
   publish?: InputMaybe<Scalars['Boolean']['input']>;
   slug?: InputMaybe<Array<TLocalizedStringItemInputType>>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   variants?: InputMaybe<Array<TProductVariantTailoringInput>>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductTailoringImageAdded = TMessagePayload & {
   __typename?: 'ProductTailoringImageAdded';
   image: TImage;
@@ -9854,11 +10113,10 @@ export type TProductTailoringImageAdded = TMessagePayload & {
   variantId: Scalars['Int']['output'];
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductTailoringImagesSet = TMessagePayload & {
   __typename?: 'ProductTailoringImagesSet';
-  images: Array<TImage>;
-  oldImages: Array<TImage>;
+  images?: Maybe<Array<TImage>>;
+  oldImages?: Maybe<Array<TImage>>;
   productKey?: Maybe<Scalars['String']['output']>;
   productRef: TReference;
   storeRef: TKeyReference;
@@ -9938,16 +10196,13 @@ export type TProductTailoringUnpublished = TMessagePayload & {
 export type TProductTailoringUpdateAction = {
   addAsset?: InputMaybe<TAddProductTailoringAsset>;
   addExternalImage?: InputMaybe<TAddProductTailoringExternalImage>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   addVariant?: InputMaybe<TAddProductVariantTailoring>;
   changeAssetName?: InputMaybe<TChangeProductTailoringAssetName>;
   changeAssetOrder?: InputMaybe<TChangeProductTailoringAssetOrder>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   moveImageToPosition?: InputMaybe<TMoveProductTailoringImageToPosition>;
   publish?: InputMaybe<TPublishTailoring>;
   removeAsset?: InputMaybe<TRemoveProductTailoringAsset>;
   removeImage?: InputMaybe<TRemoveProductTailoringImage>;
-  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   removeVariant?: InputMaybe<TRemoveProductVariantTailoring>;
   setAssetCustomField?: InputMaybe<TSetProductTailoringAssetCustomField>;
   setAssetCustomType?: InputMaybe<TSetProductTailoringAssetCustomType>;
@@ -9955,6 +10210,8 @@ export type TProductTailoringUpdateAction = {
   setAssetKey?: InputMaybe<TSetProductTailoringAssetKey>;
   setAssetSources?: InputMaybe<TSetProductTailoringAssetSources>;
   setAssetTags?: InputMaybe<TSetProductTailoringAssetTags>;
+  setAttribute?: InputMaybe<TSetProductTailoringAttribute>;
+  setAttributeInAllVariants?: InputMaybe<TSetProductTailoringAttributeInAllVariants>;
   setDescription?: InputMaybe<TSetProductTailoringDescription>;
   setImageLabel?: InputMaybe<TSetProductTailoringImageLabel>;
   setImages?: InputMaybe<TSetProductTailoringImages>;
@@ -10121,6 +10378,7 @@ export type TProductVariant_PriceArgs = {
   channelId?: InputMaybe<Scalars['String']['input']>;
   country?: InputMaybe<Scalars['Country']['input']>;
   currency: Scalars['Currency']['input'];
+  customerGroupAssignmentIds?: InputMaybe<Array<Scalars['String']['input']>>;
   customerGroupId?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -10228,15 +10486,14 @@ export type TProductVariantSelectionIncludeOnly = TProductVariantSelection & {
   type: Scalars['String']['output'];
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductVariantTailoring = {
   __typename?: 'ProductVariantTailoring';
-  assets: Array<TAsset>;
+  assets?: Maybe<Array<TAsset>>;
+  attributesRaw: Array<TRawProductAttribute>;
   id: Scalars['Int']['output'];
-  images: Array<TImage>;
+  images?: Maybe<Array<TImage>>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductVariantTailoringAdded = TMessagePayload & {
   __typename?: 'ProductVariantTailoringAdded';
   productKey?: Maybe<Scalars['String']['output']>;
@@ -10247,15 +10504,14 @@ export type TProductVariantTailoringAdded = TMessagePayload & {
   variantId: Scalars['Int']['output'];
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductVariantTailoringInput = {
   assets?: InputMaybe<Array<TAssetDraftInput>>;
+  attributes?: InputMaybe<Array<TProductAttributeInput>>;
   id?: InputMaybe<Scalars['Int']['input']>;
   images?: InputMaybe<Array<TImageInput>>;
   sku?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TProductVariantTailoringRemoved = TMessagePayload & {
   __typename?: 'ProductVariantTailoringRemoved';
   productKey?: Maybe<Scalars['String']['output']>;
@@ -10265,6 +10521,11 @@ export type TProductVariantTailoringRemoved = TMessagePayload & {
   variant: TVariantTailoring;
   variantId: Scalars['Int']['output'];
 };
+
+export enum TProductVsCartDiscountCombination {
+  BestDeal = 'BestDeal',
+  Stacking = 'Stacking',
+}
 
 /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
 export type TProductsSearchConfiguration = {
@@ -10316,6 +10577,7 @@ export type TProjectProjection = {
   createdAt: Scalars['DateTime']['output'];
   createdBy?: Maybe<TInitiator>;
   currencies: Array<Scalars['Currency']['output']>;
+  discounts?: Maybe<TDiscountsConfiguration>;
   externalOAuth?: Maybe<TExternalOAuth>;
   key: Scalars['String']['output'];
   languages: Array<Scalars['Locale']['output']>;
@@ -10331,14 +10593,15 @@ export type TProjectProjection = {
 };
 
 export type TProjectSettingsUpdateAction = {
-  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   changeBusinessUnitSearchStatus?: InputMaybe<TChangeProjectSettingsBusinessUnitSearchStatus>;
   changeCartsConfiguration?: InputMaybe<TChangeProjectSettingsCartsConfiguration>;
   changeCountries?: InputMaybe<TChangeProjectSettingsCountries>;
   changeCountryTaxRateFallbackEnabled?: InputMaybe<TChangeProjectSettingsCountryTaxRateFallbackEnabled>;
   changeCurrencies?: InputMaybe<TChangeProjectSettingsCurrencies>;
-  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
   changeCustomerSearchStatus?: InputMaybe<TChangeProjectSettingsCustomerSearchStatus>;
+  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  changeDiscountCodeSearchStatus?: InputMaybe<TChangeProjectSettingsDiscountCodeSearchStatus>;
   changeLanguages?: InputMaybe<TChangeProjectSettingsLanguages>;
   changeMessagesConfiguration?: InputMaybe<TChangeProjectSettingsMessagesConfiguration>;
   changeMessagesEnabled?: InputMaybe<TChangeProjectSettingsMessagesEnabled>;
@@ -10349,9 +10612,14 @@ export type TProjectSettingsUpdateAction = {
   /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
   changeProjectSettingsProductSearchIndexingEnabled?: InputMaybe<TChangeProjectSettingsProductSearchIndexingEnabled>;
   changeShoppingListsConfiguration?: InputMaybe<TChangeProjectSettingsShoppingListsConfiguration>;
+  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  changeStandalonePriceSearchStatus?: InputMaybe<TChangeProjectSettingsStandalonePriceSearchStatus>;
+  changeTotalPriceDiscountDoesNotReduceExternalTax?: InputMaybe<TChangeProjectSettingsTotalPriceDiscountDoesNotReduceExternalTax>;
   setExternalOAuth?: InputMaybe<TSetProjectSettingsExternalOAuth>;
   /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   setMyBusinessUnitAssociateRoleOnCreation?: InputMaybe<TSetProjectSettingsMyBusinessUnitAssociateRoleOnCreation>;
+  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+  setProductVsCartDiscountCombination?: InputMaybe<TSetProjectSettingsProductVsCartDiscountCombination>;
   setShippingRateInputType?: InputMaybe<TSetProjectSettingsShippingRateInputType>;
 };
 
@@ -11672,7 +11940,6 @@ export type TRemoveProductVariant = {
   staged?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TRemoveProductVariantTailoring = {
   id?: InputMaybe<Scalars['Int']['input']>;
   sku?: InputMaybe<Scalars['String']['input']>;
@@ -12164,14 +12431,17 @@ export type TSearchFilterModelInput = {
 
 export type TSearchIndexingConfiguration = {
   __typename?: 'SearchIndexingConfiguration';
-  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
   businessUnits?: Maybe<TBusinessUnitSearchConfiguration>;
-  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
   customers?: Maybe<TCustomerSearchConfiguration>;
+  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  discountCodes?: Maybe<TDiscountCodeSearchConfiguration>;
   orders?: Maybe<TOrderSearchConfiguration>;
   products?: Maybe<TSearchIndexingConfigurationValues>;
   /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
   productsSearch?: Maybe<TProductsSearchConfiguration>;
+  /** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+  standalonePrices?: Maybe<TStandalonePriceSearchConfiguration>;
 };
 
 export type TSearchIndexingConfigurationValues = {
@@ -12270,6 +12540,18 @@ export type TSetApprovalFlowCustomType = {
 
 export type TSetApprovalRuleApprovers = {
   approvers: TApproverHierarchyDraft;
+};
+
+export type TSetApprovalRuleCustomField = {
+  name: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TSetApprovalRuleCustomType = {
+  fields?: InputMaybe<Array<TCustomFieldInput>>;
+  type?: InputMaybe<TResourceIdentifierInput>;
+  typeId?: InputMaybe<Scalars['String']['input']>;
+  typeKey?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TSetApprovalRuleDescription = {
@@ -12459,6 +12741,7 @@ export type TSetCartCustomLineItemTaxRate = {
 };
 
 export type TSetCartCustomShippingMethod = {
+  custom?: InputMaybe<TCustomFieldsDraft>;
   externalTaxRate?: InputMaybe<TExternalTaxRateDraft>;
   shippingMethodName: Scalars['String']['input'];
   shippingRate: TShippingRateDraft;
@@ -12978,6 +13261,10 @@ export type TSetInventoryEntryRestockableInDays = {
 
 export type TSetInventoryEntrySupplyChannel = {
   supplyChannel?: InputMaybe<TResourceIdentifierInput>;
+};
+
+export type TSetInventoryKey = {
+  key?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TSetMyBusinessUnitAddressCustomField = {
@@ -13656,6 +13943,20 @@ export type TSetProductTailoringAssetTags = {
   variantId?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type TSetProductTailoringAttribute = {
+  name: Scalars['String']['input'];
+  sku?: InputMaybe<Scalars['String']['input']>;
+  staged?: InputMaybe<Scalars['Boolean']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+  variantId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type TSetProductTailoringAttributeInAllVariants = {
+  name: Scalars['String']['input'];
+  staged?: InputMaybe<Scalars['Boolean']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type TSetProductTailoringDescription = {
   description?: InputMaybe<Array<TLocalizedStringItemInputType>>;
   staged?: InputMaybe<Scalars['Boolean']['input']>;
@@ -13670,7 +13971,7 @@ export type TSetProductTailoringImageLabel = {
 };
 
 export type TSetProductTailoringImages = {
-  images: Array<TImageInput>;
+  images?: InputMaybe<Array<TImageInput>>;
   sku?: InputMaybe<Scalars['String']['input']>;
   staged?: InputMaybe<Scalars['Boolean']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
@@ -13726,6 +14027,11 @@ export type TSetProjectSettingsExternalOAuth = {
 /** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TSetProjectSettingsMyBusinessUnitAssociateRoleOnCreation = {
   associateRole?: InputMaybe<TResourceIdentifierInput>;
+};
+
+/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
+export type TSetProjectSettingsProductVsCartDiscountCombination = {
+  productVsCartDiscountCombination?: InputMaybe<TProductVsCartDiscountCombination>;
 };
 
 export type TSetProjectSettingsShippingRateInputType = {
@@ -13839,6 +14145,10 @@ export type TSetShippingMethodPredicate = {
 
 export type TSetShoppingListAnonymousId = {
   anonymousId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TSetShoppingListBusinessUnit = {
+  businessUnit: TResourceIdentifierInput;
 };
 
 export type TSetShoppingListCustomField = {
@@ -14061,6 +14371,7 @@ export type TSetStagedOrderCustomLineItemTaxRateOutput =
   };
 
 export type TSetStagedOrderCustomShippingMethod = {
+  custom?: InputMaybe<TCustomFieldsDraft>;
   externalTaxRate?: InputMaybe<TExternalTaxRateDraft>;
   shippingMethodName: Scalars['String']['input'];
   shippingRate: TShippingRateDraft;
@@ -14070,6 +14381,7 @@ export type TSetStagedOrderCustomShippingMethod = {
 export type TSetStagedOrderCustomShippingMethodOutput =
   TStagedOrderUpdateActionOutput & {
     __typename?: 'SetStagedOrderCustomShippingMethodOutput';
+    custom?: Maybe<TCustomFieldsCommand>;
     externalTaxRate?: Maybe<TExternalTaxRateDraftOutput>;
     shippingMethodName: Scalars['String']['output'];
     shippingRate: TShippingRate;
@@ -14599,6 +14911,7 @@ export type TSetStagedOrderShippingAddress = {
 
 export type TSetStagedOrderShippingAddressAndCustomShippingMethod = {
   address: TAddressInput;
+  custom?: InputMaybe<TCustomFieldsDraft>;
   externalTaxRate?: InputMaybe<TExternalTaxRateDraft>;
   shippingMethodName: Scalars['String']['input'];
   shippingRate: TShippingRateDraft;
@@ -14609,6 +14922,7 @@ export type TSetStagedOrderShippingAddressAndCustomShippingMethodOutput =
   TStagedOrderUpdateActionOutput & {
     __typename?: 'SetStagedOrderShippingAddressAndCustomShippingMethodOutput';
     address: TAddressDraft;
+    custom?: Maybe<TCustomFieldsCommand>;
     externalTaxRate?: Maybe<TExternalTaxRateDraftOutput>;
     shippingMethodName: Scalars['String']['output'];
     shippingRate: TShippingRate;
@@ -14894,6 +15208,7 @@ export type TSetZoneKey = {
 
 export enum TShipmentState {
   Backorder = 'Backorder',
+  Canceled = 'Canceled',
   Delayed = 'Delayed',
   Delivered = 'Delivered',
   Partial = 'Partial',
@@ -14909,6 +15224,13 @@ export type TShipping = {
   shippingInfo?: Maybe<TShippingInfo>;
   shippingKey?: Maybe<Scalars['String']['output']>;
   shippingRateInput?: Maybe<TShippingRateInput>;
+};
+
+export type TShippingContainer = {
+  __typename?: 'ShippingContainer';
+  multiShipping: Array<TShipping>;
+  shippingMode: TShippingMode;
+  singleShipping: TShipping;
 };
 
 export type TShippingDraft = {
@@ -15204,6 +15526,8 @@ export type TShoppingList = TReferenceExpandable &
   TVersioned & {
     __typename?: 'ShoppingList';
     anonymousId?: Maybe<Scalars['String']['output']>;
+    businessUnit?: Maybe<TBusinessUnit>;
+    businessUnitRef?: Maybe<TKeyReference>;
     createdAt: Scalars['DateTime']['output'];
     createdBy?: Maybe<TInitiator>;
     custom?: Maybe<TCustomFieldsType>;
@@ -15244,6 +15568,7 @@ export type TShoppingList_SlugArgs = {
 
 export type TShoppingListDraft = {
   anonymousId?: InputMaybe<Scalars['String']['input']>;
+  businessUnit?: InputMaybe<TResourceIdentifierInput>;
   custom?: InputMaybe<TCustomFieldsDraft>;
   customer?: InputMaybe<TResourceIdentifierInput>;
   deleteDaysAfterLastModification?: InputMaybe<Scalars['Int']['input']>;
@@ -15297,6 +15622,12 @@ export type TShoppingListLineItem_ProductSlugArgs = {
   locale?: InputMaybe<Scalars['Locale']['input']>;
 };
 
+export type TShoppingListLineItemAdded = TMessagePayload & {
+  __typename?: 'ShoppingListLineItemAdded';
+  lineItem: TShoppingListLineItem;
+  type: Scalars['String']['output'];
+};
+
 export type TShoppingListLineItemDraft = {
   addedAt?: InputMaybe<Scalars['DateTime']['input']>;
   custom?: InputMaybe<TCustomFieldsDraft>;
@@ -15305,6 +15636,12 @@ export type TShoppingListLineItemDraft = {
   quantity?: InputMaybe<Scalars['Int']['input']>;
   sku?: InputMaybe<Scalars['String']['input']>;
   variantId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type TShoppingListLineItemRemoved = TMessagePayload & {
+  __typename?: 'ShoppingListLineItemRemoved';
+  lineItem: TShoppingListLineItem;
+  type: Scalars['String']['output'];
 };
 
 /** Fields to access shopping lists. Includes direct access to a single list and searching for shopping lists. */
@@ -15348,6 +15685,7 @@ export type TShoppingListUpdateAction = {
   removeLineItem?: InputMaybe<TRemoveShoppingListLineItem>;
   removeTextLineItem?: InputMaybe<TRemoveShoppingListTextLineItem>;
   setAnonymousId?: InputMaybe<TSetShoppingListAnonymousId>;
+  setBusinessUnit?: InputMaybe<TSetShoppingListBusinessUnit>;
   setCustomField?: InputMaybe<TSetShoppingListCustomField>;
   setCustomType?: InputMaybe<TSetShoppingListCustomType>;
   setCustomer?: InputMaybe<TSetShoppingListCustomer>;
@@ -15706,6 +16044,20 @@ export type TStandalonePriceQueryResult = {
   results: Array<TStandalonePrice>;
   total: Scalars['Long']['output'];
 };
+
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export type TStandalonePriceSearchConfiguration = {
+  __typename?: 'StandalonePriceSearchConfiguration';
+  lastModifiedAt: Scalars['DateTime']['output'];
+  lastModifiedBy?: Maybe<TInitiator>;
+  status: TStandalonePriceSearchStatus;
+};
+
+/** CLOSED BETA: This feature is subject to change and should not be used in production. https://docs.commercetools.com/api/contract#closed-beta */
+export enum TStandalonePriceSearchStatus {
+  Activated = 'Activated',
+  Deactivated = 'Deactivated',
+}
 
 export type TStandalonePriceStagedChangesApplied = TMessagePayload & {
   __typename?: 'StandalonePriceStagedChangesApplied';
@@ -16730,11 +17082,10 @@ export type TValueFilterInput = {
   values: Array<Scalars['String']['input']>;
 };
 
-/** BETA: This feature can be subject to change and should be used carefully in production. https://docs.commercetools.com/api/contract#public-beta */
 export type TVariantTailoring = {
   __typename?: 'VariantTailoring';
-  assets: Array<TAsset>;
-  images: Array<TImage>;
+  assets?: Maybe<Array<TAsset>>;
+  images?: Maybe<Array<TImage>>;
 };
 
 /** Versioned object have an ID and version and modification. Every update of this object changes it's version. */
