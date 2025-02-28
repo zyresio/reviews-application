@@ -88,7 +88,7 @@ it('should render reviews and paginate to second page', async () => {
 it('should delete reviews', async () => {
   mockServer.use(
     mockFetchReviews,
-    graphql.mutation('DeleteReview', ({}) => {
+    graphql.mutation('DeleteReview', () => {
       // Simulate a server side pagination.
       removed = true;
       return HttpResponse.json({
